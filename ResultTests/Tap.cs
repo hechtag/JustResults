@@ -8,85 +8,166 @@ namespace ResultTests;
 
 public class Tap
 {
-    [Fact]
-    public void Success()
+    public sealed class With_Content
     {
-        // arrange
-        var input = "input";
-        var success_count = 0;
-        var success_data = "";
-        var error_count = 0;
-        var error_data = "";
-
-        void SuccessAction(string data)
+        [Fact]
+        public void Success()
         {
-            success_count++;
-            success_data = data;
+            // arrange
+            var input = "input";
+
+            var success_count = 0;
+            var success_data = "";
+            var error_count = 0;
+            var error_data = "";
+
+            void SuccessAction(string data)
+            {
+                success_count++;
+                success_data = data;
+            }
+
+            void ErrorAction(IError e)
+            {
+                error_count++;
+                error_data = e.Message;
+            }
+
+            var success = Result<string>.Success(input);
+
+
+            // act
+            success.Tap(SuccessAction, ErrorAction);
+
+            // assert
+            using (new AssertionScope())
+            {
+                success.IsSuccess.Should().BeTrue();
+
+                success_count.Should().Be(1);
+                success_data.Should().Be(input);
+
+                error_count.Should().Be(0);
+                error_data.Should().Be("");
+            }
         }
 
-        void ErrorAction(IError e)
+        [Fact]
+        public void Failure()
         {
-            error_count++;
-            error_data = e.Message;
-        }
+            // arrange
+            var error = "error";
+            var success_count = 0;
+            var success_data = "";
+            var error_count = 0;
+            var error_data = "";
 
-        var success = Result<string>.Success(input);
-        
+            void SuccessAction(string data)
+            {
+                success_count++;
+                success_data = data;
+            }
 
-        // act
-        success.Tap(SuccessAction, ErrorAction);
+            void ErrorAction(IError e)
+            {
+                error_count++;
+                error_data = e.Message;
+            }
 
-        // assert
-        using (new AssertionScope())
-        {
-            success.IsSuccess.Should().BeTrue();
+            var success = Result<string>.Failure(error);
 
-            success_count.Should().Be(1);
-            success_data.Should().Be(input);
 
-            error_count.Should().Be(0);
-            error_data.Should().Be("");
+            // act
+            success.Tap(SuccessAction, ErrorAction);
+
+            // assert
+            using (new AssertionScope())
+            {
+                success.IsSuccess.Should().BeFalse();
+
+                success_count.Should().Be(0);
+                success_data.Should().Be("");
+
+                error_count.Should().Be(1);
+                error_data.Should().Be(error);
+            }
         }
     }
-
-    [Fact]
-    public void Failure()
+    public sealed class No_Content
     {
-        // arrange
-        var error = "error";
-        var success_count = 0;
-        var success_data = "";
-        var error_count = 0;
-        var error_data = "";
-
-        void SuccessAction(string data)
+        [Fact]
+        public void Success()
         {
-            success_count++;
-            success_data = data;
+            // arrange
+            var success_count = 0;
+            var error_count = 0;
+            var error_data = "";
+
+            void SuccessAction()
+            {
+                success_count++;
+            }
+
+            void ErrorAction(IError e)
+            {
+                error_count++;
+                error_data = e.Message;
+            }
+
+            var success = Result.Success();
+
+
+            // act
+            success.Tap(SuccessAction, ErrorAction);
+
+            // assert
+            using (new AssertionScope())
+            {
+                success.IsSuccess.Should().BeTrue();
+
+                success_count.Should().Be(1);
+
+                error_count.Should().Be(0);
+                error_data.Should().Be("");
+            }
         }
 
-        void ErrorAction(IError e)
+        [Fact]
+        public void Failure()
         {
-            error_count++;
-            error_data = e.Message;
-        }
+            // arrange
+            var error = "error";
+            var success_count = 0;
+            var error_count = 0;
+            var error_data = "";
 
-        var success = Result<string>.Failure(error);
-        
+            void SuccessAction()
+            {
+                success_count++;
+            }
 
-        // act
-        success.Tap(SuccessAction, ErrorAction);
+            void ErrorAction(IError e)
+            {
+                error_count++;
+                error_data = e.Message;
+            }
 
-        // assert
-        using (new AssertionScope())
-        {
-            success.IsSuccess.Should().BeFalse();
+            var success = Result.Failure(error);
 
-            success_count.Should().Be(0);
-            success_data.Should().Be("");
 
-            error_count.Should().Be(1);
-            error_data.Should().Be(error);
+            // act
+            success.Tap(SuccessAction, ErrorAction);
+
+            // assert
+            using (new AssertionScope())
+            {
+                success.IsSuccess.Should().BeFalse();
+
+                success_count.Should().Be(0);
+
+                error_count.Should().Be(1);
+                error_data.Should().Be(error);
+            }
         }
     }
 }

@@ -5,39 +5,37 @@ using Xunit;
 
 namespace ResultTests;
 
-public class Map
+public class Try
 {
-    public sealed class With_Content
+     public sealed class With_Content
     {
         [Fact]
         public void Success()
         {
             // arrange
-            var input = "input";
-            var success = Result<string>.Success(input);
-
+            var func = () => "try";
+        
             // act
-            var res = success.Map(data => data + " map");
-
+            var res = Result<string>.Try(func);
+        
             // assert
             var result_message = res.Match(data => data, err => err.Message);
             using (new AssertionScope())
             {
                 res.IsSuccess.Should().BeTrue();
-                result_message.Should().Be("input map");
+                result_message.Should().Be("try");
             }
         }
-
+        
         [Fact]
         public void Failure()
         {
             // arrange
-            var error = "error";
-            var failure = Result<string>.Failure(error);
-
+            var func = new Func<string>(() => throw new Exception("error"));
+        
             // act
-            var res = failure.Map(data => data + " map");
-
+            var res = Result<string>.Try(func);
+        
             // assert
             var result_message = res.Match(data => data, err => err.Message);
             using (new AssertionScope())
@@ -54,32 +52,31 @@ public class Map
         public void Success()
         {
             // arrange
-            var success = Result.Success();
-
+            var func = () => { };
+        
             // act
-            var res = success.Map(() => "map");
-
+            var res = Result.Try(func);
+        
             // assert
-            var result_message = res.Match(data => data, err => err.Message);
+            var result_message = res.Match(() => "try", err => err.Message);
             using (new AssertionScope())
             {
                 res.IsSuccess.Should().BeTrue();
-                result_message.Should().Be("map");
+                result_message.Should().Be("try");
             }
         }
-
+        
         [Fact]
         public void Failure()
         {
             // arrange
-            var error = "error";
-            var failure = Result.Failure(error);
-
+            var func = new Action(() => throw new Exception("error"));
+        
             // act
-            var res = failure.Map(() => "map");
-
+            var res = Result.Try(func);
+        
             // assert
-            var result_message = res.Match(data => data, err => err.Message);
+            var result_message = res.Match(() => "try", err => err.Message);
             using (new AssertionScope())
             {
                 res.IsSuccess.Should().BeFalse();

@@ -57,6 +57,18 @@ public sealed class Result<TSuccess> : Result
             (false, _) => Result<TResult>.Failure(res1.Error!),
             _ => Result<TResult>.Failure(res2.Error!)
         };
+    
+    public static Result<TResult> Try<TResult>(Func<TResult> func)
+    {
+        try
+        {
+            return Result<TResult>.Success(func());
+        }
+        catch (Exception ex)
+        {
+            return Result<TResult>.Failure(ex.ToError());
+        }
+    }
 }
 
 public class Result
@@ -108,19 +120,19 @@ public class Result
             _ => res2
         };
 
-    public static implicit operator Task<Result>(Result s) => Task.FromResult(s);
-
-    public static Result<TResult> Try<TResult>(Func<TResult> func)
+    public static Result Try(Action func)
     {
         try
         {
-            return Result<TResult>.Success(func());
+            func();
+            return Success();
         }
         catch (Exception ex)
         {
-            return (Result<TResult>)Failure(ex.ToError());
+            return Failure(ex.ToError());
         }
     }
+    public static implicit operator Task<Result>(Result s) => Task.FromResult(s);
 
     public Result Tap(Action successTap, Action<IError> failureTap)
     {

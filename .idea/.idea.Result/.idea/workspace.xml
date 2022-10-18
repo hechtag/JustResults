@@ -4,10 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b4dcbd6b-4b44-44f3-8641-25f0fd349387" name="Changes" comment="add some tests">
+    <list default="true" id="b4dcbd6b-4b44-44f3-8641-25f0fd349387" name="Changes" comment="add tests">
+      <change afterPath="$PROJECT_DIR$/ResultTests/Map2.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ResultTests/Try.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Result/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Result/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResultTests/Bind.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ResultTests/Bind.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ResultTests/Map.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ResultTests/Map.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ResultTests/Tap.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ResultTests/Tap.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Results/Result.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Results/Result.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -60,7 +62,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1666094499154</updated>
-      <workItem from="1666094504244" duration="8883000" />
+      <workItem from="1666094504244" duration="11406000" />
     </task>
     <task id="LOCAL-00001" summary="git stuff">
       <created>1666094965200</created>
@@ -97,7 +99,14 @@
       <option name="project" value="LOCAL" />
       <updated>1666105331006</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="add tests">
+      <created>1666106115389</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1666106115389</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -121,7 +130,8 @@
     <MESSAGE value="git stuff" />
     <MESSAGE value="init" />
     <MESSAGE value="add some tests" />
-    <option name="LAST_COMMIT_MESSAGE" value="add some tests" />
+    <MESSAGE value="add tests" />
+    <option name="LAST_COMMIT_MESSAGE" value="add tests" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -131,7 +141,7 @@
           <line>78</line>
           <properties documentPath="C:\Sandbox\Result\ResultTests\Map.cs" initialLine="78" containingFunctionPresentation="method 'Failure'">
             <startOffsets>
-              <option value="1952" />
+              <option value="1969" />
             </startOffsets>
             <endOffsets>
               <option value="1987" />
