@@ -85,12 +85,12 @@ public class Result
     public Result<TResult> Map<TResult>(Func<TResult> mapFunc) =>
         IsSuccess
             ? Result<TResult>.Success(mapFunc())
-            : (Result<TResult>)Failure(Error!);
+            : Result<TResult>.Failure(Error!);
 
     public Result<TResult> Bind<TResult>(Func<Result<TResult>> bindFunc) =>
         IsSuccess
             ? bindFunc()
-            : (Result<TResult>)Failure(Error!);
+            : Result<TResult>.Failure(Error!);
 
     public TMatch Match<TMatch>(Func<TMatch> successFunc, Func<IError, TMatch> errorFunc)
     {
