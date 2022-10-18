@@ -1,6 +1,6 @@
-using Result.Errors;
+using Results.Errors;
 
-namespace Result;
+namespace Results;
 
 public static class ResultApplyExtensions
 {
@@ -39,9 +39,9 @@ public static class ResultApplyExtensions
         func.Match(s => input.Map(i => metaFunc(i, s)),
             eFunc => ApplyErrorPath<TInput, TFuncOutput>(input, eFunc));
 
-    private static Result<TOutput> ApplyErrorPath<TInput, TOutput>(Result<TInput> input, List<Error> eFunc) =>
+    private static Result<TOutput> ApplyErrorPath<TInput, TOutput>(Result<TInput> input, IError eFunc) =>
         input.Match(
             _ => (Result<TOutput>)Result.Failure(eFunc),
-            eInput => (Result<TOutput>)Result.Failure(eFunc.Concat(eInput).ToList())
+            eInput => (Result<TOutput>)Result.Failure(eFunc.Concat(eInput))
         );
 }

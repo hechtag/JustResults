@@ -1,10 +1,10 @@
-namespace Result.Errors;
+namespace Results.Errors;
 
-public record Error(string Message)
+public record ExceptionError(string Message) : IError
 {
     public Exception? Exception { get; init; }
 
-    public static implicit operator List<Error>(Error e) => new() { e };
+    public static implicit operator ExceptionError(Exception e) => new(e.Message) { Exception = e };
 
     public static Result Try(Action action)
     {

@@ -1,4 +1,4 @@
-namespace Result;
+namespace Results;
 
 public static class ResultMapExtensions
 {
