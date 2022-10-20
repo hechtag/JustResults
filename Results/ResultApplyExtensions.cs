@@ -41,7 +41,7 @@ public static class ResultApplyExtensions
 
     private static Result<TOutput> ApplyErrorPath<TInput, TOutput>(Result<TInput> input, IError eFunc) =>
         input.Match(
-            _ => (Result<TOutput>)Result.Failure(eFunc),
-            eInput => (Result<TOutput>)Result.Failure(eFunc.Concat(eInput))
+            _ => Result<TOutput>.Failure(eFunc),
+            eInput => Result<TOutput>.Failure(eFunc.Concat(eInput))
         );
 }

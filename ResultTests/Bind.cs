@@ -1,8 +1,3 @@
-using FluentAssertions;
-using FluentAssertions.Execution;
-using Results;
-using Xunit;
-
 namespace ResultTests;
 
 public class Bind
@@ -20,11 +15,11 @@ public class Bind
             var res = success.Bind(data => Result<string>.Success(data + " bind"));
 
             // assert
-            var result_message = res.Match(data => data, err => err.Message);
+            var result_message = res.GetValue();
             using (new AssertionScope())
             {
                 res.IsSuccess.Should().BeTrue();
-                result_message.Should().Be("input bind");
+                result_message.Should().NotBeNull().And.Be("input bind");
             }
         }
 
@@ -39,11 +34,12 @@ public class Bind
             var res = success.Bind(data => Result<string>.Failure(data + " error"));
 
             // assert
-            var result_message = res.Match(data => data, err => err.Message);
+            var error = res.GetError();
             using (new AssertionScope())
             {
                 res.IsSuccess.Should().BeFalse();
-                result_message.Should().Be("input error");
+                error.Should().NotBeNull();
+                error!.Message.Should().Be("input error");
             }
         }
 
@@ -51,18 +47,19 @@ public class Bind
         public void Failure_with_Success_Bind()
         {
             // arrange
-            var error = "error";
-            var success = Result<string>.Failure(error);
+            var errorInput = "error";
+            var success = Result<string>.Failure(errorInput);
 
             // act
             var res = success.Bind(data => Result<string>.Success(data + " bind"));
 
             // assert
-            var result_message = res.Match(data => data, err => err.Message);
+            var error = res.GetError();
             using (new AssertionScope())
             {
                 res.IsSuccess.Should().BeFalse();
-                result_message.Should().Be("error");
+                error.Should().NotBeNull();
+                error!.Message.Should().Be("error");
             }
         }
 
@@ -70,18 +67,19 @@ public class Bind
         public void Failure_with_Failure_Bind()
         {
             // arrange
-            var error = "error";
-            var success = Result<string>.Failure(error);
+            var errorInput = "error";
+            var errorResult = Result<string>.Failure(errorInput);
 
             // act
-            var res = success.Bind(data => Result<string>.Failure(data + " bind"));
+            var res = errorResult.Bind(data => Result<string>.Failure(data + " bind"));
 
             // assert
-            var result_message = res.Match(data => data, err => err.Message);
+            var error = res.GetError();
             using (new AssertionScope())
             {
                 res.IsSuccess.Should().BeFalse();
-                result_message.Should().Be("error");
+                error.Should().NotBeNull();
+                error!.Message.Should().Be("error");
             }
         }
     }
@@ -97,7 +95,7 @@ public class Bind
             var res = success.Bind(() => Result<string>.Success("bind"));
 
             // assert
-            var result_message = res.Match(data => data, err => err.Message);
+            var result_message = res.GetValue();
             using (new AssertionScope())
             {
                 res.IsSuccess.Should().BeTrue();
@@ -115,11 +113,12 @@ public class Bind
             var res = success.Bind(() => Result<string>.Failure("error"));
 
             // assert
-            var result_message = res.Match(data => data, err => err.Message);
+            var error = res.GetError();
             using (new AssertionScope())
             {
                 res.IsSuccess.Should().BeFalse();
-                result_message.Should().Be("error");
+                error.Should().NotBeNull();
+                error!.Message.Should().Be("error");
             }
         }
 
@@ -127,18 +126,19 @@ public class Bind
         public void Failure_with_Success_Bind()
         {
             // arrange
-            var error = "error";
-            var success = Result.Failure(error);
+            var errorInput = "error";
+            var errorResult = Result.Failure(errorInput);
 
             // act
-            var res = success.Bind(() => Result<string>.Success("bind"));
+            var res = errorResult.Bind(() => Result<string>.Success("bind"));
 
             // assert
-            var result_message = res.Match(data => data, err => err.Message);
+            var error = res.GetError();
             using (new AssertionScope())
             {
                 res.IsSuccess.Should().BeFalse();
-                result_message.Should().Be("error");
+                error.Should().NotBeNull();
+                error!.Message.Should().Be("error");
             }
         }
 
@@ -146,18 +146,19 @@ public class Bind
         public void Failure_with_Failure_Bind()
         {
             // arrange
-            var error = "error";
-            var success = Result.Failure(error);
+            var errorInput = "error";
+            var errorResult = Result.Failure(errorInput);
 
             // act
-            var res = success.Bind(() => Result<string>.Failure("bind"));
+            var res = errorResult.Bind(() => Result<string>.Failure("bind"));
 
             // assert
-            var result_message = res.Match(data => data, err => err.Message);
+            var error = res.GetError();
             using (new AssertionScope())
             {
                 res.IsSuccess.Should().BeFalse();
-                result_message.Should().Be("error");
+                error.Should().NotBeNull();
+                error!.Message.Should().Be("error");
             }
         }
     }

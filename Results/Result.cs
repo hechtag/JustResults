@@ -14,7 +14,7 @@ public sealed class Result<TSuccess> : Result
 
     public new static Result<TSuccess> Failure(string error) =>
         new() { Error = TextError.Create(error) };
-
+    
     public TMatch Match<TMatch>(Func<TSuccess, TMatch> successFunc, Func<IError, TMatch> errorFunc) =>
         IsSuccess
             ? successFunc(_value!)
@@ -40,6 +40,11 @@ public sealed class Result<TSuccess> : Result
         return this;
     }
 
+    public TSuccess? GetValue()
+        => IsSuccess
+            ? _value
+            : default(TSuccess?);
+
     public Result ToResult() =>
         IsSuccess
             ? Result.Success()
@@ -47,6 +52,7 @@ public sealed class Result<TSuccess> : Result
 
     public static implicit operator Result<TSuccess>(TSuccess s) => Success(s);
     public static implicit operator Task<Result<TSuccess>>(Result<TSuccess> s) => Task.FromResult(s);
+
 
     public static Result<TResult> Map2<TSuccess1, TSuccess2, TResult>(Result<TSuccess1> res1, Result<TSuccess2> res2,
         Func<TSuccess1, TSuccess2, TResult> mapFunc) =>
@@ -57,7 +63,7 @@ public sealed class Result<TSuccess> : Result
             (false, _) => Result<TResult>.Failure(res1.Error!),
             _ => Result<TResult>.Failure(res2.Error!)
         };
-    
+
     public static Result<TResult> Try<TResult>(Func<TResult> func)
     {
         try
@@ -103,7 +109,7 @@ public class Result
         IsSuccess
             ? bindFunc()
             : Result<TResult>.Failure(Error!);
-
+    
     public TMatch Match<TMatch>(Func<TMatch> successFunc, Func<IError, TMatch> errorFunc)
     {
         return IsSuccess
@@ -132,6 +138,7 @@ public class Result
             return Failure(ex.ToError());
         }
     }
+
     public static implicit operator Task<Result>(Result s) => Task.FromResult(s);
 
     public Result Tap(Action successTap, Action<IError> failureTap)
@@ -142,5 +149,12 @@ public class Result
             failureTap(Error!);
 
         return this;
+    }
+
+    public IError? GetError()
+    {
+        return IsSuccess
+            ? null
+            : Error;
     }
 }
