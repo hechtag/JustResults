@@ -1,4 +1,4 @@
-namespace Results;
+namespace Results.Synchronous;
 
 public static class ResultMapExtensions
 {

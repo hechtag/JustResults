@@ -1,4 +1,6 @@
-namespace ResultTests;
+using Results.Synchronous;
+
+namespace ResultTests.Synchronous;
 
 public class Bind
 {
@@ -89,7 +91,7 @@ public class Bind
         public void Success_with_Success_Bind()
         {
             // arrange
-            var success = Result.Success();
+            var success = Results.Synchronous.Result.Success();
 
             // act
             var res = success.Bind(() => Result<string>.Success("bind"));
@@ -107,7 +109,7 @@ public class Bind
         public void Success_with_Failure_Bind()
         {
             // arrange
-            var success = Result.Success();
+            var success = Results.Synchronous.Result.Success();
 
             // act
             var res = success.Bind(() => Result<string>.Failure("error"));
@@ -127,7 +129,7 @@ public class Bind
         {
             // arrange
             var errorInput = "error";
-            var errorResult = Result.Failure(errorInput);
+            var errorResult = Results.Synchronous.Result.Failure(errorInput);
 
             // act
             var res = errorResult.Bind(() => Result<string>.Success("bind"));
@@ -147,7 +149,7 @@ public class Bind
         {
             // arrange
             var errorInput = "error";
-            var errorResult = Result.Failure(errorInput);
+            var errorResult = Results.Synchronous.Result.Failure(errorInput);
 
             // act
             var res = errorResult.Bind(() => Result<string>.Failure("bind"));

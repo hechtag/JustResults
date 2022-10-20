@@ -1,4 +1,6 @@
-namespace ResultTests.Extensions;
+using Results.Synchronous;
+
+namespace ResultTests.Synchronous.Extensions;
 
 public class IEnumerable
 {

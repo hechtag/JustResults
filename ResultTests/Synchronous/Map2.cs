@@ -1,6 +1,7 @@
 using Results.Errors;
+using Results.Synchronous;
 
-namespace ResultTests;
+namespace ResultTests.Synchronous;
 
 public class Map2
 {
@@ -117,11 +118,11 @@ public class Map2
         public void Success()
         {
             // arrange
-            var success1 = Result.Success();
-            var success2 = Result.Success();
+            var success1 = Results.Synchronous.Result.Success();
+            var success2 = Results.Synchronous.Result.Success();
 
             // act
-            var res = Result.Map2(success1, success2);
+            var res = Results.Synchronous.Result.Map2(success1, success2);
 
             // assert
             var result_message = res.Match(() => "map", err => err.Message);
@@ -137,11 +138,11 @@ public class Map2
         {
             // arrange
             var error = "error";
-            var failure = Result.Failure(error);
-            var success = Result.Success();
+            var failure = Results.Synchronous.Result.Failure(error);
+            var success = Results.Synchronous.Result.Success();
         
             // act
-            var res = Result.Map2(failure, success);
+            var res = Results.Synchronous.Result.Map2(failure, success);
             // assert
             var result_message = res.Match(() => "map", err => err.Message);
             using (new AssertionScope())
@@ -156,11 +157,11 @@ public class Map2
         {
             // arrange
             var error = "error";
-            var success = Result.Success();
-            var failure = Result.Failure(error);
+            var success = Results.Synchronous.Result.Success();
+            var failure = Results.Synchronous.Result.Failure(error);
         
             // act
-            var res = Result.Map2(success, failure);
+            var res = Results.Synchronous.Result.Map2(success, failure);
             // assert
             var result_message = res.Match(() => "", err => err.Message);
             using (new AssertionScope())
@@ -176,11 +177,11 @@ public class Map2
             // arrange
             var error1 = "error1";
             var error2 = "error2";
-            var failure1 = Result.Failure(error1);
-            var failure2 = Result.Failure(error2);
+            var failure1 = Results.Synchronous.Result.Failure(error1);
+            var failure2 = Results.Synchronous.Result.Failure(error2);
         
             // act
-            var res = Result.Map2(failure1, failure2);
+            var res = Results.Synchronous.Result.Map2(failure1, failure2);
             // assert
             var result_error = res.Match(() => TextError.Create(""), err => err);
             var errors = result_error as CompositeError;

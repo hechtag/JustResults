@@ -1,36 +1,40 @@
-namespace ResultTests;
+using Results.Synchronous;
 
-public class Try
+namespace ResultTests.Synchronous;
+
+public class Map
 {
-     public sealed class With_Content
+    public sealed class With_Content
     {
         [Fact]
         public void Success()
         {
             // arrange
-            var func = () => "try";
-        
+            var input = "input";
+            var success = Result<string>.Success(input);
+
             // act
-            var res = Result<string>.Try(func);
-        
+            var res = success.Map(data => data + " map");
+
             // assert
             var result_message = res.Match(data => data, err => err.Message);
             using (new AssertionScope())
             {
                 res.IsSuccess.Should().BeTrue();
-                result_message.Should().Be("try");
+                result_message.Should().Be("input map");
             }
         }
-        
+
         [Fact]
         public void Failure()
         {
             // arrange
-            var func = new Func<string>(() => throw new Exception("error"));
-        
+            var error = "error";
+            var failure = Result<string>.Failure(error);
+
             // act
-            var res = Result<string>.Try(func);
-        
+            var res = failure.Map(data => data + " map");
+
             // assert
             var result_message = res.Match(data => data, err => err.Message);
             using (new AssertionScope())
@@ -47,31 +51,32 @@ public class Try
         public void Success()
         {
             // arrange
-            var func = () => { };
-        
+            var success = Results.Synchronous.Result.Success();
+
             // act
-            var res = Result.Try(func);
-        
+            var res = success.Map(() => "map");
+
             // assert
-            var result_message = res.Match(() => "try", err => err.Message);
+            var result_message = res.Match(data => data, err => err.Message);
             using (new AssertionScope())
             {
                 res.IsSuccess.Should().BeTrue();
-                result_message.Should().Be("try");
+                result_message.Should().Be("map");
             }
         }
-        
+
         [Fact]
         public void Failure()
         {
             // arrange
-            var func = new Action(() => throw new Exception("error"));
-        
+            var error = "error";
+            var failure = Results.Synchronous.Result.Failure(error);
+
             // act
-            var res = Result.Try(func);
-        
+            var res = failure.Map(() => "map");
+
             // assert
-            var result_message = res.Match(() => "try", err => err.Message);
+            var result_message = res.Match(data => data, err => err.Message);
             using (new AssertionScope())
             {
                 res.IsSuccess.Should().BeFalse();

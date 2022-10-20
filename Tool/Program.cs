@@ -2,6 +2,7 @@
 
 
 using Results;
+using Results.Synchronous;
 
 var first = Stuff.Create("testname");
 var second = Stuff.Create("  ");

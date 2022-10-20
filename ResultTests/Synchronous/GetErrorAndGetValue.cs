@@ -1,4 +1,6 @@
-namespace ResultTests;
+using Results.Synchronous;
+
+namespace ResultTests.Synchronous;
 
 public class GetErrorAndGetValue
 {

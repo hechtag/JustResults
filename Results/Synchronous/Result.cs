@@ -1,6 +1,6 @@
 using Results.Errors;
 
-namespace Results;
+namespace Results.Synchronous;
 
 public sealed class Result<TSuccess> : Result
 {

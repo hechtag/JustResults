@@ -9,7 +9,6 @@
     <ItemGroup>
         <Using Include="FluentAssertions" />
         <Using Include="FluentAssertions.Execution" />
-        <Using Include="Results" />
         <Using Include="Xunit" />
     </ItemGroup>
 

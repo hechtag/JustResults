@@ -1,6 +1,7 @@
 using Results.Errors;
+using Results.Synchronous;
 
-namespace ResultTests;
+namespace ResultTests.Synchronous;
 
 public class Tap
 {
@@ -110,7 +111,7 @@ public class Tap
                 error_data = e.Message;
             }
 
-            var success = Result.Success();
+            var success = Results.Synchronous.Result.Success();
 
 
             // act
@@ -148,7 +149,7 @@ public class Tap
                 error_data = e.Message;
             }
 
-            var success = Result.Failure(error);
+            var success = Results.Synchronous.Result.Failure(error);
 
 
             // act

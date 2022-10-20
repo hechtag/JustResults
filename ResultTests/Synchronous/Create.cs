@@ -1,6 +1,7 @@
 using Results.Errors;
+using Results.Synchronous;
 
-namespace ResultTests;
+namespace ResultTests.Synchronous;
 
 public sealed class Create
 {
@@ -15,7 +16,7 @@ public sealed class Create
                 var expected_failure_message = "expected_failure_message";
 
                 // act
-                var failure = Result.Failure(expected_failure_message);
+                var failure = Results.Synchronous.Result.Failure(expected_failure_message);
                 var result_message = failure.Match(() => "", err => err.Message);
 
                 // assert
@@ -33,7 +34,7 @@ public sealed class Create
                 var error = TextError.Create("error");
 
                 // act
-                var failure = Result.Failure(error);
+                var failure = Results.Synchronous.Result.Failure(error);
                 var result_message = failure.Match(() => "", err => err.Message);
 
                 // assert
@@ -52,7 +53,7 @@ public sealed class Create
             var expected_success_message = "expected_success_message";
 
             // act
-            var failure = Result.Success();
+            var failure = Results.Synchronous.Result.Success();
             var result_message = failure.Match(() => expected_success_message, err => err.Message);
 
             // assert

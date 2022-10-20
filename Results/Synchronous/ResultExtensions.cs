@@ -1,6 +1,6 @@
 using Results.Errors;
 
-namespace Results;
+namespace Results.Synchronous;
 
 public static class ResultExtensions
 {
