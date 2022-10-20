@@ -87,7 +87,7 @@ public class IEnumerable
             }
         }
     }
-    
+
     public class Sequence_Apply
     {
         [Fact]
@@ -108,7 +108,7 @@ public class IEnumerable
             using (new AssertionScope())
             {
                 successResult.IsSuccess.Should().BeTrue();
-            
+
                 successList.Should().HaveCount(2);
                 successList!.First().Should().Be("success1");
                 successList!.Last().Should().Be("success2");
@@ -133,12 +133,12 @@ public class IEnumerable
             using (new AssertionScope())
             {
                 failureResult.IsSuccess.Should().BeFalse();
-            
+
                 error.Should().NotBeNull();
                 error!.Message.Should().Be("error");
             }
         }
-        
+
         [Fact]
         public void Two_Failures()
         {
@@ -157,12 +157,13 @@ public class IEnumerable
             using (new AssertionScope())
             {
                 failureResult.IsSuccess.Should().BeFalse();
-            
+
                 error.Should().NotBeNull();
                 error!.Message.Should().Be("There are 2 Errors. ");
                 error!.Display.Should().Be("CompositeError: [TextError: error1, TextError: error2]");
             }
-        } 
+        }
+
         [Fact]
         public void Three_Failures()
         {
@@ -182,13 +183,14 @@ public class IEnumerable
             using (new AssertionScope())
             {
                 failureResult.IsSuccess.Should().BeFalse();
-            
+
                 error.Should().NotBeNull();
                 error!.Message.Should().Be("There are 3 Errors. ");
                 error!.Display.Should().Be("CompositeError: [TextError: error1, TextError: error2, TextError: error3]");
             }
         }
     }
+
     public class Sequence_Bind
     {
         [Fact]
@@ -209,7 +211,7 @@ public class IEnumerable
             using (new AssertionScope())
             {
                 successResult.IsSuccess.Should().BeTrue();
-            
+
                 successList.Should().HaveCount(2);
                 successList!.First().Should().Be("success1");
                 successList!.Last().Should().Be("success2");
@@ -234,12 +236,12 @@ public class IEnumerable
             using (new AssertionScope())
             {
                 failureResult.IsSuccess.Should().BeFalse();
-            
+
                 error.Should().NotBeNull();
                 error!.Message.Should().Be("error");
             }
         }
-        
+
         [Fact]
         public void Two_Failures()
         {
@@ -259,12 +261,12 @@ public class IEnumerable
             using (new AssertionScope())
             {
                 failureResult.IsSuccess.Should().BeFalse();
-            
+
                 error.Should().NotBeNull();
                 error!.Message.Should().Be("error1");
             }
-        } 
-        
+        }
+
         [Fact]
         public void Three_Failures()
         {
@@ -284,7 +286,251 @@ public class IEnumerable
             using (new AssertionScope())
             {
                 failureResult.IsSuccess.Should().BeFalse();
-            
+
+                error.Should().NotBeNull();
+                error!.Message.Should().Be("error1");
+            }
+        }
+    }
+
+    public class Traverse_Apply
+    {
+        [Fact]
+        public void Success()
+        {
+            // arrange
+            var list = new List<string>
+            {
+                "success1",
+                "success2",
+            };
+
+            Result<string> TestFunc(string input) =>
+                input.Contains("success")
+                    ? Result<string>.Success(input)
+                    : Result<string>.Failure("error");
+
+            // act
+            var successResult = list.TraverseApply(TestFunc);
+
+            // assert
+            var successList = successResult.GetValue();
+            using (new AssertionScope())
+            {
+                successResult.IsSuccess.Should().BeTrue();
+
+                successList.Should().HaveCount(2);
+                successList!.First().Should().Be("success1");
+                successList!.Last().Should().Be("success2");
+            }
+        }
+
+        [Fact]
+        public void One_Failure()
+        {
+            // arrange
+            var list = new List<string>
+            {
+                "success",
+                "error"
+            };
+
+            Result<string> TestFunc(string input) =>
+                input.Contains("success")
+                    ? Result<string>.Success(input)
+                    : Result<string>.Failure("error");
+
+            // act
+            var failureResult = list.TraverseApply(TestFunc);
+
+            // assert
+            var error = failureResult.GetError();
+            using (new AssertionScope())
+            {
+                failureResult.IsSuccess.Should().BeFalse();
+
+                error.Should().NotBeNull();
+                error!.Message.Should().Be("error");
+            }
+        }
+
+        [Fact]
+        public void Two_Failures()
+        {
+            // arrange
+            var list = new List<string>
+            {
+                "error1",
+                "error2",
+            };
+
+            Result<string> TestFunc(string input) =>
+                input.Contains("success")
+                    ? Result<string>.Success(input)
+                    : Result<string>.Failure(input);
+
+            // act
+            var failureResult = list.TraverseApply(TestFunc);
+
+            // assert
+            var error = failureResult.GetError();
+            using (new AssertionScope())
+            {
+                failureResult.IsSuccess.Should().BeFalse();
+
+                error.Should().NotBeNull();
+                error!.Message.Should().Be("There are 2 Errors. ");
+                error!.Display.Should().Be("CompositeError: [TextError: error1, TextError: error2]");
+            }
+        }
+
+        [Fact]
+        public void Three_Failures()
+        {
+            // arrange
+            var list = new List<string>
+            {
+                "error1",
+                "error2",
+                "error3",
+            };
+
+            Result<string> TestFunc(string input) =>
+                input.Contains("success")
+                    ? Result<string>.Success(input)
+                    : Result<string>.Failure(input);
+
+            // act
+            var failureResult = list.TraverseApply(TestFunc);
+
+            // assert
+            var error = failureResult.GetError();
+            using (new AssertionScope())
+            {
+                failureResult.IsSuccess.Should().BeFalse();
+
+                error.Should().NotBeNull();
+                error!.Message.Should().Be("There are 3 Errors. ");
+                error!.Display.Should().Be("CompositeError: [TextError: error1, TextError: error2, TextError: error3]");
+            }
+        }
+    }
+
+    public class Traverse_Bind
+    {
+        [Fact]
+        public void Success()
+        {
+            // arrange
+            var list = new List<string>
+            {
+                "success1",
+                "success2",
+            };
+
+            Result<string> TestFunc(string input) =>
+                input.Contains("success")
+                    ? Result<string>.Success(input)
+                    : Result<string>.Failure("error");
+
+            // act
+            var successResult = list.TraverseBind(TestFunc);
+
+            // assert
+            var successList = successResult.GetValue();
+            using (new AssertionScope())
+            {
+                successResult.IsSuccess.Should().BeTrue();
+
+                successList.Should().HaveCount(2);
+                successList!.First().Should().Be("success1");
+                successList!.Last().Should().Be("success2");
+            }
+        }
+
+        [Fact]
+        public void One_Failure()
+        {
+            // arrange
+            var list = new List<string>
+            {
+                "success",
+                "error"
+            };
+
+            Result<string> TestFunc(string input) =>
+                input.Contains("success")
+                    ? Result<string>.Success(input)
+                    : Result<string>.Failure("error");
+
+            // act
+            var failureResult = list.TraverseBind(TestFunc);
+
+            // assert
+            var error = failureResult.GetError();
+            using (new AssertionScope())
+            {
+                failureResult.IsSuccess.Should().BeFalse();
+
+                error.Should().NotBeNull();
+                error!.Message.Should().Be("error");
+            }
+        }
+
+        [Fact]
+        public void Two_Failures()
+        {
+            // arrange
+            var list = new List<string>
+            {
+                "error1",
+                "error2",
+            };
+
+            Result<string> TestFunc(string input) =>
+                input.Contains("success")
+                    ? Result<string>.Success(input)
+                    : Result<string>.Failure(input);
+
+            // act
+            var failureResult = list.TraverseBind(TestFunc);
+
+            // assert
+            var error = failureResult.GetError();
+            using (new AssertionScope())
+            {
+                failureResult.IsSuccess.Should().BeFalse();
+
+                error.Should().NotBeNull();
+                error!.Message.Should().Be("error1");
+            }
+        }
+
+        [Fact]
+        public void Three_Failures()
+        {
+            // arrange
+            var list = new List<string>
+            {
+                "error1",
+                "error2",
+                "error3",
+            };
+
+            Result<string> TestFunc(string input) =>
+                input.Contains("success")
+                    ? Result<string>.Success(input)
+                    : Result<string>.Failure(input);
+
+            // act
+            var failureResult = list.TraverseBind(TestFunc);
+
+            // assert
+            var error = failureResult.GetError();
+            using (new AssertionScope())
+            {
+                failureResult.IsSuccess.Should().BeFalse();
+
                 error.Should().NotBeNull();
                 error!.Message.Should().Be("error1");
             }

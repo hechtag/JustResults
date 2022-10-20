@@ -39,4 +39,18 @@ public static class IEnumerableExtensions
         IEnumerable<TSuccess> AppendItem(IEnumerable<TSuccess> l, TSuccess i) => l.Append(i);
         return agg.Bind(a => item.Map(i => AppendItem(a, i)));
     }
+    
+    
+    public static Result<IEnumerable<TOutput>> TraverseApply<TInput,TOutput>(this IEnumerable<TInput> input, Func<TInput,Result<TOutput>> func)
+    {
+        var start = Result<IEnumerable<TOutput>>.Success(new List<TOutput>());
+        return input.Aggregate(start, (agg, item) => Map2(agg,func(item)));
+    }
+
+    public static Result<IEnumerable<TOutput>> TraverseBind<TInput,TOutput>(this IEnumerable<TInput> input, Func<TInput,Result<TOutput>> func)
+    {
+        var start = Result<IEnumerable<TOutput>>.Success(new List<TOutput>());
+        return input.Aggregate(start, (agg, item) => Bind(agg,func(item)));
+    }
+
 }
