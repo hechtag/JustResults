@@ -14,28 +14,29 @@ public static class IEnumerableExtensions
             .Where(r => !r.IsSuccess)
             .Select(r => r.GetError()!);
 
-    public static Result<List<TSuccess>> SequenceApply<TSuccess>(this IEnumerable<Result<TSuccess>> input)
+    public static Result<IEnumerable<TSuccess>> SequenceApply<TSuccess>(this IEnumerable<Result<TSuccess>> input)
     {
-        var start = Result<List<TSuccess>>.Success(new List<TSuccess>());
+        var start = Result<IEnumerable<TSuccess>>.Success(new List<TSuccess>());
         return input.Aggregate(start, Map2);
     }
 
-    private static Result<List<TSuccess>> Map2<TSuccess>(Result<List<TSuccess>> agg, Result<TSuccess> item)
+    private static Result<IEnumerable<TSuccess>> Map2<TSuccess>(Result<IEnumerable<TSuccess>> agg,
+        Result<TSuccess> item)
     {
-        List<TSuccess> AppendItem(List<TSuccess> l, TSuccess i) => l.Append(i).ToList();
+        IEnumerable<TSuccess> AppendItem(IEnumerable<TSuccess> l, TSuccess i) => l.Append(i);
         return Result<List<TSuccess>>.Map2(agg, item, AppendItem);
     }
 
-    public static Result<List<TSuccess>> SequenceBind<TSuccess>(this IEnumerable<Result<TSuccess>> input)
+    public static Result<IEnumerable<TSuccess>> SequenceBind<TSuccess>(this IEnumerable<Result<TSuccess>> input)
     {
-        var start = Result<List<TSuccess>>.Success(new List<TSuccess>());
+        var start = Result<IEnumerable<TSuccess>>.Success(new List<TSuccess>());
         return input.Aggregate(start, Bind);
     }
 
-    private static Result<List<TSuccess>> Bind<TSuccess>(Result<List<TSuccess>> agg, Result<TSuccess> item)
+    private static Result<IEnumerable<TSuccess>> Bind<TSuccess>(Result<IEnumerable<TSuccess>> agg,
+        Result<TSuccess> item)
     {
-        List<TSuccess> AppendItem(List<TSuccess> l, TSuccess i) => l.Append(i).ToList();
-        return agg.Bind(a => item.Match(i => Result<List<TSuccess>>.Success(AppendItem(a, i)),
-            e => Result<List<TSuccess>>.Failure(e)));
+        IEnumerable<TSuccess> AppendItem(IEnumerable<TSuccess> l, TSuccess i) => l.Append(i);
+        return agg.Bind(a => item.Map(i => AppendItem(a, i)));
     }
 }
