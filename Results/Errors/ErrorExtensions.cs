@@ -3,7 +3,7 @@ namespace Results.Errors;
 public static class ErrorExtensions
 {
     public static IError ToError(this Exception ex) =>
-        new ExceptionError(ex.Message) { Exception = ex };
+        new ExceptionError( ex );
 
     public static IError Concat(this IError first, IError second)
     {

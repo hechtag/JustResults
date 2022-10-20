@@ -7,12 +7,18 @@ public sealed class TextError : IError
         Message = text;
     }
 
-    public static implicit operator TextError(string text) => new TextError(text);
+    public static implicit operator TextError(string text) => new (text);
     
     public string Message { get; }
+    public string Display => $"{nameof(TextError)}: {Message}";
 
     public static IError Create(string text)
     {
         return new TextError(text);
+    }
+
+    public override string ToString()
+    {
+        return Display;
     }
 }

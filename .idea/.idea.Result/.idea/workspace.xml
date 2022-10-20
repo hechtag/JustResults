@@ -4,13 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b4dcbd6b-4b44-44f3-8641-25f0fd349387" name="Changes" comment="add tests">
-      <change afterPath="$PROJECT_DIR$/ResultTests/Map2.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ResultTests/Try.cs" afterDir="false" />
+    <list default="true" id="b4dcbd6b-4b44-44f3-8641-25f0fd349387" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Result/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Result/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResultTests/Map.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ResultTests/Map.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ResultTests/Tap.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ResultTests/Tap.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Results/Result.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Results/Result.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results/Errors/CompositeError.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Results/Errors/CompositeError.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results/Errors/ErrorExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Results/Errors/ErrorExtensions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results/Errors/ExceptionError.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Results/Errors/ExceptionError.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results/Errors/IError.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Results/Errors/IError.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Results/Errors/TextError.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Results/Errors/TextError.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,11 +18,12 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="mock://C:/Sandbox/Result/ResultTests/Bind.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Sandbox/Result/Results/Errors/CompositeError.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Results/Errors/CompositeError.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Results/Errors/ErrorExtensions.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Results/Errors/ExceptionError.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Results/Errors/IError.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Sandbox/Result/Results/Errors/TextError.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Results/Errors/TextError.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Results/Result.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Results/ResultApplyExtensions.cs" root0="FORCE_HIGHLIGHTING" />
@@ -42,18 +43,18 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -62,7 +63,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1666094499154</updated>
-      <workItem from="1666094504244" duration="11406000" />
+      <workItem from="1666094504244" duration="11768000" />
+      <workItem from="1666179496787" duration="2850000" />
     </task>
     <task id="LOCAL-00001" summary="git stuff">
       <created>1666094965200</created>
@@ -106,7 +108,21 @@
       <option name="project" value="LOCAL" />
       <updated>1666106115389</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="add tests">
+      <created>1666108576633</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1666108576633</updated>
+    </task>
+    <task id="LOCAL-00008" summary="remove code coverage">
+      <created>1666108646139</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1666108646139</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -131,7 +147,8 @@
     <MESSAGE value="init" />
     <MESSAGE value="add some tests" />
     <MESSAGE value="add tests" />
-    <option name="LAST_COMMIT_MESSAGE" value="add tests" />
+    <MESSAGE value="remove code coverage" />
+    <option name="LAST_COMMIT_MESSAGE" value="remove code coverage" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -1,10 +1,17 @@
 namespace Results.Errors;
 
-public record ExceptionError(string Message) : IError
+public class ExceptionError : IError
 {
-    public Exception? Exception { get; init; }
+    public ExceptionError(Exception ex)
+    {
+        Exception = ex;
+    }
+    
+    public Exception Exception { get; }
+    public string Message => Exception.Message;
+    public string Display => $"{nameof(ExceptionError)}: {Exception}";
 
-    public static implicit operator ExceptionError(Exception e) => new(e.Message) { Exception = e };
+    public static implicit operator ExceptionError(Exception e) => new(e);
 
     public static Result Try(Action action)
     {
@@ -18,4 +25,9 @@ public record ExceptionError(string Message) : IError
             return Result.Failure(ex.ToError());
         }
     }
+    public override string ToString()
+    {
+        return Display;
+    }
+
 }
