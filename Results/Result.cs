@@ -4,17 +4,23 @@ namespace Results;
 
 public sealed class Result<TSuccess> : Result
 {
-    private TSuccess? _value;
+    private Result(TSuccess value) : base(null) => _value = value;
+
+    private Result(IError error) : base(error)
+    {
+    }
+
+    private readonly TSuccess? _value;
 
     public static Result<TSuccess> Success(TSuccess success) =>
-        new() { _value = success };
+        new(success);
 
     public new static Result<TSuccess> Failure(IError error) =>
-        new() { Error = error };
+        new(error);
 
     public new static Result<TSuccess> Failure(string error) =>
-        new() { Error = TextError.Create(error) };
-    
+        new(TextError.Create(error));
+
     public TMatch Match<TMatch>(Func<TSuccess, TMatch> successFunc, Func<IError, TMatch> errorFunc) =>
         IsSuccess
             ? successFunc(_value!)
@@ -79,7 +85,9 @@ public sealed class Result<TSuccess> : Result
 
 public class Result
 {
-    protected IError? Error;
+    protected Result(IError error) => Error = error;
+
+    protected readonly IError? Error;
 
     public bool IsSuccess => Error is null;
 
@@ -87,17 +95,17 @@ public class Result
 
     public static Result Success()
     {
-        return new Result();
+        return new Result(null);
     }
 
     public static Result Failure(IError error)
     {
-        return new Result { Error = error };
+        return new Result(error);
     }
 
     public static Result Failure(string error)
     {
-        return new Result { Error = TextError.Create(error) };
+        return new Result(TextError.Create(error));
     }
 
     public Result<TResult> Map<TResult>(Func<TResult> mapFunc) =>
@@ -109,7 +117,7 @@ public class Result
         IsSuccess
             ? bindFunc()
             : Result<TResult>.Failure(Error!);
-    
+
     public TMatch Match<TMatch>(Func<TMatch> successFunc, Func<IError, TMatch> errorFunc)
     {
         return IsSuccess
