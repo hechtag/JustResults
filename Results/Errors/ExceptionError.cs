@@ -2,7 +2,7 @@ using Results.Synchronous;
 
 namespace Results.Errors;
 
-public class ExceptionError : IError
+public sealed class ExceptionError : IError
 {
     public ExceptionError(Exception ex)
     {

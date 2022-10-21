@@ -2,7 +2,7 @@ using Results.Errors;
 
 namespace Results.Synchronous;
 
-public static class ResultApplyExtensions
+public static class ResultCurryApplyExtensions
 {
     // public static Result<TOutput>
     //     Apply<TInput, TOutput>(this Result<Func<TInput, TOutput>> func, Result<TInput> input) =>

@@ -2,7 +2,7 @@ using Results.Synchronous;
 
 namespace ResultTests.Synchronous.Extensions;
 
-public class FailIfNull
+public sealed class FailIfNull
 {
     [Fact]
     public void Input_is_null()

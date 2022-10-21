@@ -1,6 +1,6 @@
 using System.Runtime.CompilerServices;
 
-public class Awaiter<TResult> : INotifyCompletion
+public sealed class Awaiter<TResult> : INotifyCompletion
 {
     private readonly Task<TResult> _input;
 

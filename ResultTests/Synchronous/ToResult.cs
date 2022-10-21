@@ -2,7 +2,7 @@ using Results.Synchronous;
 
 namespace ResultTests.Synchronous;
 
-public class ToResult
+public sealed class ToResult
 {
     [Fact]
     public void Success()

@@ -2,9 +2,9 @@ using Results.Synchronous;
 
 namespace ResultTests.Synchronous.Extensions;
 
-public class MapAndApply
+public sealed class MapAndApply
 {
-    public class Apply_tow_params
+    public sealed class Apply_tow_params
     {
         [Fact]
         public void Success()
@@ -101,7 +101,7 @@ public class MapAndApply
         }
     }
 
-    public class Apply_three_params
+    public sealed class Apply_three_params
     {
         [Fact]
         public void Success()
@@ -233,7 +233,7 @@ public class MapAndApply
             }
         }
     }
-    public class Apply_four_params
+    public sealed class Apply_four_params
     {
         [Fact]
         public void Success()

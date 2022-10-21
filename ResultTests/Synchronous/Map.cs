@@ -3,9 +3,9 @@ using Results.Synchronous;
 
 namespace ResultTests.Synchronous;
 
-public class Map
+public sealed class Map
 {
-    public class Sync
+    public sealed class Sync
     {
         public sealed class With_Content
         {
@@ -89,7 +89,7 @@ public class Map
         }
     }
 
-    public class Async
+    public sealed class Async
     {
         public sealed class With_Content
         {

@@ -2,20 +2,23 @@ namespace Results.Synchronous;
 
 public static class ResultMapExtensions
 {
-    public static Result<Func<TInput2, TOutput>> Map<TInput1, TInput2, TOutput>(this Result<TInput1> input,
-        Func<TInput1, TInput2, TOutput> mapFunc) =>
-        input.Match(i1 => Result<Func<TInput2, TOutput>>.Success(i2 => mapFunc(i1, i2)),
-           Result<Func<TInput2, TOutput>>.Failure);
+    public static Task<Result<TOutput>> Map<TInput, TOutput>(
+        this Task<Result<TInput>> input,
+        Func<TInput, TOutput> func)
+        => input.MapTask(res => res.Map(func));
 
-    public static Result<Func<TInput2, TInput3, TOutput>> Map<TInput1, TInput2, TInput3, TOutput>(
-        this Result<TInput1> input,
-        Func<TInput1, TInput2, TInput3, TOutput> mapFunc) =>
-        input.Match(i1 => Result<Func<TInput2, TInput3, TOutput>>.Success((i2, i3) => mapFunc(i1, i2, i3)),
-           Result<Func<TInput2, TInput3, TOutput>>.Failure);
-    
-    public static Result<Func<TInput2, TInput3, TInput4, TOutput>> Map<TInput1, TInput2, TInput3, TInput4, TOutput>(
-        this Result<TInput1> input,
-        Func<TInput1, TInput2, TInput3, TInput4, TOutput> mapFunc) =>
-        input.Match(i1 => Result<Func<TInput2, TInput3, TInput4, TOutput>>.Success((i2, i3, i4) => mapFunc(i1, i2, i3, i4)),
-           Result<Func<TInput2, TInput3, TInput4, TOutput>>.Failure);
+    public static Task<Result<TOutput>> Map<TInput, TOutput>(
+        this Task<Result<TInput>> input,
+        Func<TInput, Task<TOutput>> func)
+        => input.MapTask(res => res.Map(func)).Flatten();
+
+    public static Task<Result<TOutput>> Map<TOutput>(
+        this Task<Result> input,
+        Func<TOutput> func)
+        => input.MapTask(res => res.Map(func));
+
+    public static Task<Result<TOutput>> Map<TOutput>(
+        this Task<Result> input,
+        Func<Task<TOutput>> func)
+        => input.MapTask(res => res.Map(func)).Flatten();
 }

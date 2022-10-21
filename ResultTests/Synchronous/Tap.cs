@@ -1,169 +1,507 @@
+using Results;
 using Results.Errors;
 using Results.Synchronous;
 
 namespace ResultTests.Synchronous;
 
-public class Tap
+public sealed class Tap
 {
-    public sealed class With_Content
+    public sealed class Sync
     {
-        [Fact]
-        public void Success()
+        public sealed class With_Content
         {
-            // arrange
-            var input = "input";
-
-            var success_count = 0;
-            var success_data = "";
-            var error_count = 0;
-            var error_data = "";
-
-            void SuccessAction(string data)
+            [Fact]
+            public void Success()
             {
-                success_count++;
-                success_data = data;
+                // arrange
+                var input = "input";
+
+                var success_count = 0;
+                var success_data = "";
+                var error_count = 0;
+                var error_data = "";
+
+                void SuccessAction(string data)
+                {
+                    success_count++;
+                    success_data = data;
+                }
+
+                void ErrorAction(IError e)
+                {
+                    error_count++;
+                    error_data = e.Message;
+                }
+
+                var success = Result<string>.Success(input);
+
+
+                // act
+                success.Tap(SuccessAction, ErrorAction);
+
+                // assert
+                using (new AssertionScope())
+                {
+                    success.IsSuccess.Should().BeTrue();
+
+                    success_count.Should().Be(1);
+                    success_data.Should().Be(input);
+
+                    error_count.Should().Be(0);
+                    error_data.Should().Be("");
+                }
             }
 
-            void ErrorAction(IError e)
+            [Fact]
+            public void Failure()
             {
-                error_count++;
-                error_data = e.Message;
-            }
+                // arrange
+                var error = "error";
+                var success_count = 0;
+                var success_data = "";
+                var error_count = 0;
+                var error_data = "";
 
-            var success = Result<string>.Success(input);
+                void SuccessAction(string data)
+                {
+                    success_count++;
+                    success_data = data;
+                }
+
+                void ErrorAction(IError e)
+                {
+                    error_count++;
+                    error_data = e.Message;
+                }
+
+                var success = Result<string>.Failure(error);
 
 
-            // act
-            success.Tap(SuccessAction, ErrorAction);
+                // act
+                success.Tap(SuccessAction, ErrorAction);
 
-            // assert
-            using (new AssertionScope())
-            {
-                success.IsSuccess.Should().BeTrue();
+                // assert
+                using (new AssertionScope())
+                {
+                    success.IsSuccess.Should().BeFalse();
 
-                success_count.Should().Be(1);
-                success_data.Should().Be(input);
+                    success_count.Should().Be(0);
+                    success_data.Should().Be("");
 
-                error_count.Should().Be(0);
-                error_data.Should().Be("");
+                    error_count.Should().Be(1);
+                    error_data.Should().Be(error);
+                }
             }
         }
 
-        [Fact]
-        public void Failure()
+        public sealed class No_Content
         {
-            // arrange
-            var error = "error";
-            var success_count = 0;
-            var success_data = "";
-            var error_count = 0;
-            var error_data = "";
-
-            void SuccessAction(string data)
+            [Fact]
+            public void Success()
             {
-                success_count++;
-                success_data = data;
+                // arrange
+                var success_count = 0;
+                var error_count = 0;
+                var error_data = "";
+
+                void SuccessAction()
+                {
+                    success_count++;
+                }
+
+                void ErrorAction(IError e)
+                {
+                    error_count++;
+                    error_data = e.Message;
+                }
+
+                var success = Results.Synchronous.Result.Success();
+
+
+                // act
+                success.Tap(SuccessAction, ErrorAction);
+
+                // assert
+                using (new AssertionScope())
+                {
+                    success.IsSuccess.Should().BeTrue();
+
+                    success_count.Should().Be(1);
+
+                    error_count.Should().Be(0);
+                    error_data.Should().Be("");
+                }
             }
 
-            void ErrorAction(IError e)
+            [Fact]
+            public void Failure()
             {
-                error_count++;
-                error_data = e.Message;
-            }
+                // arrange
+                var error = "error";
+                var success_count = 0;
+                var error_count = 0;
+                var error_data = "";
 
-            var success = Result<string>.Failure(error);
+                void SuccessAction()
+                {
+                    success_count++;
+                }
+
+                void ErrorAction(IError e)
+                {
+                    error_count++;
+                    error_data = e.Message;
+                }
+
+                var success = Results.Synchronous.Result.Failure(error);
 
 
-            // act
-            success.Tap(SuccessAction, ErrorAction);
+                // act
+                success.Tap(SuccessAction, ErrorAction);
 
-            // assert
-            using (new AssertionScope())
-            {
-                success.IsSuccess.Should().BeFalse();
+                // assert
+                using (new AssertionScope())
+                {
+                    success.IsSuccess.Should().BeFalse();
 
-                success_count.Should().Be(0);
-                success_data.Should().Be("");
+                    success_count.Should().Be(0);
 
-                error_count.Should().Be(1);
-                error_data.Should().Be(error);
+                    error_count.Should().Be(1);
+                    error_data.Should().Be(error);
+                }
             }
         }
     }
-    public sealed class No_Content
+
+    public sealed class Async
     {
-        [Fact]
-        public void Success()
+        public sealed class With_Content
         {
-            // arrange
-            var success_count = 0;
-            var error_count = 0;
-            var error_data = "";
-
-            void SuccessAction()
+            [Fact]
+            public async Task Success_sync_lambda()
             {
-                success_count++;
+                // arrange
+                var input = "input";
+
+                var success_count = 0;
+                var success_data = "";
+                var error_count = 0;
+                var error_data = "";
+
+                void SuccessAction(string data)
+                {
+                    success_count++;
+                    success_data = data;
+                }
+
+                void ErrorAction(IError e)
+                {
+                    error_count++;
+                    error_data = e.Message;
+                }
+
+                var successTask = Result<string>.Success(input).ToTask();
+
+
+                // act
+                var success = await successTask.Tap(SuccessAction, ErrorAction);
+
+                // assert
+                using (new AssertionScope())
+                {
+                    success.IsSuccess.Should().BeTrue();
+
+                    success_count.Should().Be(1);
+                    success_data.Should().Be(input);
+
+                    error_count.Should().Be(0);
+                    error_data.Should().Be("");
+                }
             }
 
-            void ErrorAction(IError e)
+            [Fact]
+            public async Task Failure_sync_lambda()
             {
-                error_count++;
-                error_data = e.Message;
+                // arrange
+                var error = "error";
+                var success_count = 0;
+                var success_data = "";
+                var error_count = 0;
+                var error_data = "";
+
+                void SuccessAction(string data)
+                {
+                    success_count++;
+                    success_data = data;
+                }
+
+                void ErrorAction(IError e)
+                {
+                    error_count++;
+                    error_data = e.Message;
+                }
+
+                var successTask = Result<string>.Failure(error).ToTask();
+
+
+                // act
+                var success = await successTask.Tap(SuccessAction, ErrorAction);
+
+                // assert
+                using (new AssertionScope())
+                {
+                    success.IsSuccess.Should().BeFalse();
+
+                    success_count.Should().Be(0);
+                    success_data.Should().Be("");
+
+                    error_count.Should().Be(1);
+                    error_data.Should().Be(error);
+                }
             }
 
-            var success = Results.Synchronous.Result.Success();
-
-
-            // act
-            success.Tap(SuccessAction, ErrorAction);
-
-            // assert
-            using (new AssertionScope())
+            [Fact]
+            public async Task Success_async_lambda()
             {
-                success.IsSuccess.Should().BeTrue();
+                // arrange
+                var input = "input";
 
-                success_count.Should().Be(1);
+                var success_count = 0;
+                var success_data = "";
+                var error_count = 0;
+                var error_data = "";
 
-                error_count.Should().Be(0);
-                error_data.Should().Be("");
+                Task SuccessAction(string data)
+                {
+                    success_count++;
+                    success_data = data;
+                    return Task.CompletedTask;
+                }
+
+                Task ErrorAction(IError e)
+                {
+                    error_count++;
+                    error_data = e.Message;
+                    return Task.CompletedTask;
+                }
+
+                var successTask = Result<string>.Success(input).ToTask();
+
+
+                // act
+                var success = await successTask.Tap(SuccessAction, ErrorAction);
+
+                // assert
+                using (new AssertionScope())
+                {
+                    success.IsSuccess.Should().BeTrue();
+
+                    success_count.Should().Be(1);
+                    success_data.Should().Be(input);
+
+                    error_count.Should().Be(0);
+                    error_data.Should().Be("");
+                }
+            }
+
+            [Fact]
+            public async Task Failure_async_lambda()
+            {
+                // arrange
+                var error = "error";
+                var success_count = 0;
+                var success_data = "";
+                var error_count = 0;
+                var error_data = "";
+
+                Task SuccessAction(string data)
+                {
+                    success_count++;
+                    success_data = data;
+                    return Task.CompletedTask;
+                }
+
+                Task ErrorAction(IError e)
+                {
+                    error_count++;
+                    error_data = e.Message;
+                    return Task.CompletedTask;
+                }
+
+                var successTask = Result<string>.Failure(error).ToTask();
+
+
+                // act
+                var success = await successTask.Tap(SuccessAction, ErrorAction);
+
+                // assert
+                using (new AssertionScope())
+                {
+                    success.IsSuccess.Should().BeFalse();
+
+                    success_count.Should().Be(0);
+                    success_data.Should().Be("");
+
+                    error_count.Should().Be(1);
+                    error_data.Should().Be(error);
+                }
             }
         }
 
-        [Fact]
-        public void Failure()
+        public sealed class No_Content
         {
-            // arrange
-            var error = "error";
-            var success_count = 0;
-            var error_count = 0;
-            var error_data = "";
-
-            void SuccessAction()
+            [Fact]
+            public async Task Success_sync_lambda()
             {
-                success_count++;
+                // arrange
+                var success_count = 0;
+                var error_count = 0;
+                var error_data = "";
+
+                void SuccessAction()
+                {
+                    success_count++;
+                }
+
+                void ErrorAction(IError e)
+                {
+                    error_count++;
+                    error_data = e.Message;
+                }
+
+                var successTask = Result.Success().ToTask();
+
+
+                // act
+                var success = await successTask.Tap(SuccessAction, ErrorAction);
+
+                // assert
+                using (new AssertionScope())
+                {
+                    success.IsSuccess.Should().BeTrue();
+
+                    success_count.Should().Be(1);
+
+                    error_count.Should().Be(0);
+                    error_data.Should().Be("");
+                }
             }
 
-            void ErrorAction(IError e)
+            [Fact]
+            public async Task Failure_sync_lambda()
             {
-                error_count++;
-                error_data = e.Message;
+                // arrange
+                var error = "error";
+                var success_count = 0;
+                var error_count = 0;
+                var error_data = "";
+
+                void SuccessAction()
+                {
+                    success_count++;
+                }
+
+                void ErrorAction(IError e)
+                {
+                    error_count++;
+                    error_data = e.Message;
+                }
+
+                var successTask = Result.Failure(error).ToTask();
+
+
+                // act
+                var success = await successTask.Tap(SuccessAction, ErrorAction);
+
+                // assert
+                using (new AssertionScope())
+                {
+                    success.IsSuccess.Should().BeFalse();
+
+                    success_count.Should().Be(0);
+
+                    error_count.Should().Be(1);
+                    error_data.Should().Be(error);
+                }
             }
 
-            var success = Results.Synchronous.Result.Failure(error);
-
-
-            // act
-            success.Tap(SuccessAction, ErrorAction);
-
-            // assert
-            using (new AssertionScope())
+            [Fact]
+            public async Task Success_async_lambda()
             {
-                success.IsSuccess.Should().BeFalse();
+                // arrange
+                var success_count = 0;
+                var error_count = 0;
+                var error_data = "";
 
-                success_count.Should().Be(0);
+                Task SuccessAction()
+                {
+                    success_count++;
+                    return Task.CompletedTask;
+                }
 
-                error_count.Should().Be(1);
-                error_data.Should().Be(error);
+                Task ErrorAction(IError e)
+                {
+                    error_count++;
+                    error_data = e.Message;
+                    return Task.CompletedTask;
+                }
+
+                var successTask = Result.Success().ToTask();
+
+
+                // act
+                var success = await successTask.Tap(SuccessAction, ErrorAction);
+
+                // assert
+                using (new AssertionScope())
+                {
+                    success.IsSuccess.Should().BeTrue();
+
+                    success_count.Should().Be(1);
+
+                    error_count.Should().Be(0);
+                    error_data.Should().Be("");
+                }
+            }
+
+            [Fact]
+            public async Task Failure_async_lambda()
+            {
+                // arrange
+                var error = "error";
+                var success_count = 0;
+                var error_count = 0;
+                var error_data = "";
+
+                Task SuccessAction()
+                {
+                    success_count++;
+                    return Task.CompletedTask;
+                }
+
+                Task ErrorAction(IError e)
+                {
+                    error_count++;
+                    error_data = e.Message;
+                    return Task.CompletedTask;
+                }
+
+                var successTask = Result.Failure(error).ToTask();
+
+
+                // act
+                var success = await successTask.Tap(SuccessAction, ErrorAction);
+
+                // assert
+                using (new AssertionScope())
+                {
+                    success.IsSuccess.Should().BeFalse();
+
+                    success_count.Should().Be(0);
+
+                    error_count.Should().Be(1);
+                    error_data.Should().Be(error);
+                }
             }
         }
     }

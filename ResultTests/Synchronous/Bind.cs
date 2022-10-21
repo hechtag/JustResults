@@ -2,7 +2,7 @@ using Results.Synchronous;
 
 namespace ResultTests.Synchronous;
 
-public class Bind
+public sealed class Bind
 {
     public sealed class With_Content
     {

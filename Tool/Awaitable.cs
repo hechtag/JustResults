@@ -1,7 +1,7 @@
 using System.Runtime.CompilerServices;
 
 [AsyncMethodBuilder(typeof(AwaitableMethodBuilder<>))]
-public class Awaitable<TResult>
+public sealed class Awaitable<TResult>
 {
     private readonly Task<TResult> _input;
 

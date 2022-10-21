@@ -2,9 +2,9 @@ using Results.Synchronous;
 
 namespace ResultTests.Synchronous.Extensions;
 
-public class IEnumerable
+public sealed class IEnumerable
 {
-    public class Where_Success
+    public sealed class Where_Success
     {
         [Fact]
         public void Filter_Success()
@@ -47,7 +47,7 @@ public class IEnumerable
         }
     }
 
-    public class Where_Failure
+    public sealed class Where_Failure
     {
         [Fact]
         public void Filter_Errors()
@@ -90,7 +90,7 @@ public class IEnumerable
         }
     }
 
-    public class Sequence_Apply
+    public sealed class Sequence_Apply
     {
         [Fact]
         public void Success()
@@ -193,7 +193,7 @@ public class IEnumerable
         }
     }
 
-    public class Sequence_Bind
+    public sealed class Sequence_Bind
     {
         [Fact]
         public void Success()
@@ -295,7 +295,7 @@ public class IEnumerable
         }
     }
 
-    public class Traverse_Apply
+    public sealed class Traverse_Apply
     {
         [Fact]
         public void Success()
@@ -418,7 +418,7 @@ public class IEnumerable
         }
     }
 
-    public class Traverse_Bind
+    public sealed class Traverse_Bind
     {
         [Fact]
         public void Success()

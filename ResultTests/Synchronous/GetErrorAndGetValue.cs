@@ -3,7 +3,7 @@ using Results.Synchronous;
 
 namespace ResultTests.Synchronous;
 
-public class GetErrorAndGetValue
+public sealed class GetErrorAndGetValue
 {
     [Fact]
     public void Success()

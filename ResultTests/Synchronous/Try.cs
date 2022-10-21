@@ -2,7 +2,7 @@ using Results.Synchronous;
 
 namespace ResultTests.Synchronous;
 
-public class Try
+public sealed class Try
 {
      public sealed class With_Content
     {

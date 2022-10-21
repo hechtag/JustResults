@@ -3,7 +3,7 @@ using Results.Synchronous;
 
 namespace ResultTests.Synchronous;
 
-public class Map2
+public sealed class Map2
 {
     public sealed class With_Content
     {
