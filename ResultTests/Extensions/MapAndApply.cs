@@ -229,10 +229,12 @@ public sealed class MapAndApply
                 failure.IsSuccess.Should().BeFalse();
                 error.Should().NotBeNull();
                 error!.Message.Should().Be("There are 3 Errors. ");
-                error!.Display.Should().Be("CompositeError: [TextError: error1, TextError: error2, TextError: error3]");
+                error!.Display.Should()
+                    .Be("CompositeError: [TextError: error1, TextError: error2, TextError: error3]");
             }
         }
     }
+
     public sealed class Apply_four_params
     {
         [Fact]
@@ -345,6 +347,7 @@ public sealed class MapAndApply
                 error!.Message.Should().Be("error");
             }
         }
+
         [Fact]
         public void Fourth_fails()
         {
@@ -398,7 +401,9 @@ public sealed class MapAndApply
                 failure.IsSuccess.Should().BeFalse();
                 error.Should().NotBeNull();
                 error!.Message.Should().Be("There are 4 Errors. ");
-                error!.Display.Should().Be("CompositeError: [TextError: error1, TextError: error2, TextError: error3, TextError: error4]");
+                error!.Display.Should()
+                    .Be(
+                        "CompositeError: [TextError: error1, TextError: error2, TextError: error3, TextError: error4]");
             }
         }
     }

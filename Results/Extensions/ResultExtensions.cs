@@ -11,4 +11,11 @@ public static class ResultExtensions
 
     public static Result<TInput> FailIfNull<TInput>(this TInput? input, string errorMessage = "The input was null. ")
         => input.FailIfNull(TextError.Create(errorMessage));
+
+    public static Task<Result<TInput>> FailIfNull<TInput>(this Task<TInput?> input,
+        string errorMessage = "The input was null. ")
+        => input.MapTask(i => i.FailIfNull(TextError.Create(errorMessage)));
+
+    public static Task<Result> ToResult<TSuccess>(this Task<Result<TSuccess>> input)
+        => input.MapTask(i => i.ToResult());
 }

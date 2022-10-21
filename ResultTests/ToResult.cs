@@ -4,39 +4,80 @@ namespace ResultTests;
 
 public sealed class ToResult
 {
-    [Fact]
-    public void Success()
+    public sealed class Sync
     {
-        // arrange
-        var input = "input";
-        var success = Result<string>.Success(input);
-
-        // act
-        var result = success.ToResult();
-
-        // assert
-        using (new AssertionScope())
+        [Fact]
+        public void Success()
         {
-            result.IsSuccess.Should().BeTrue();
+            // arrange
+            var input = "input";
+            var success = Result<string>.Success(input);
+
+            // act
+            var result = success.ToResult();
+
+            // assert
+            using (new AssertionScope())
+            {
+                result.IsSuccess.Should().BeTrue();
+            }
+        }
+
+        [Fact]
+        public void Failure()
+        {
+            // arrange
+            var error = "error";
+            var failure = Result<string>.Failure(error);
+
+            // act
+            var result = failure.ToResult();
+
+            // assert
+            var res = result.GetError();
+            using (new AssertionScope())
+            {
+                result.IsSuccess.Should().BeFalse();
+                res.Message.Should().Be(error);
+            }
         }
     }
-
-    [Fact]
-    public void Failure()
+    public sealed class Async
     {
-        // arrange
-        var error = "error";
-        var failure = Result<string>.Failure(error);
-
-        // act
-        var result = failure.ToResult();
-
-        // assert
-        var res = result.Match(() => "", e => e.Message);
-        using (new AssertionScope())
+        [Fact]
+        public async Task Success()
         {
-            result.IsSuccess.Should().BeFalse();
-            res.Should().Be(error);
+            // arrange
+            var input = "input";
+            var success = Result<string>.Success(input).ToTask();
+
+            // act
+            var result = await success.ToResult();
+
+            // assert
+            using (new AssertionScope())
+            {
+                result.IsSuccess.Should().BeTrue();
+            }
+        }
+
+        [Fact]
+        public async Task Failure()
+        {
+            // arrange
+            var error = "error";
+            var failure = Result<string>.Failure(error).ToTask();
+
+            // act
+            var result = await failure.ToResult();
+
+            // assert
+            var res = result.GetError();
+            using (new AssertionScope())
+            {
+                result.IsSuccess.Should().BeFalse();
+                res.Message.Should().Be(error);
+            }
         }
     }
 }

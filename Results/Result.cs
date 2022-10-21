@@ -80,7 +80,7 @@ public sealed class Result<TSuccess> : Result
             : Result.Failure(Error!);
 
     public static implicit operator Result<TSuccess>(TSuccess s) => Success(s);
-    public static implicit operator Task<Result<TSuccess>>(Result<TSuccess> s) => Task.FromResult(s);
+    // public static implicit operator Task<Result<TSuccess>>(Result<TSuccess> s) => Task.FromResult(s);
 
     public static Result<TSuccess> Map2<TSuccess1, TSuccess2>(
         Result<TSuccess1> res1,
@@ -236,7 +236,7 @@ public class Result
         }
     }
 
-    public static implicit operator Task<Result>(Result s) => Task.FromResult(s);
+    // public static implicit operator Task<Result>(Result s) => Task.FromResult(s);
 
     public Result Tap(Action successTap, Action<IError> failureTap)
     {
