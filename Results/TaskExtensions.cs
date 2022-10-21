@@ -1,6 +1,6 @@
 namespace Results;
 
-public static class Helpers
+public static class TaskExtensions
 {
     public static async Task<TResult> MapTask<TInput, TResult>(this Task<TInput> input, Func<TInput, TResult> func)
         => func(await input);
