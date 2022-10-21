@@ -1,6 +1,6 @@
 using Results.Errors;
 
-namespace Results.Synchronous;
+namespace Results;
 
 public static class IEnumerableExtensions
 {

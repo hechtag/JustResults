@@ -1,6 +1,6 @@
 using Results.Errors;
 
-namespace Results.Synchronous;
+namespace Results;
 
 public sealed class Result<TSuccess> : Result
 {
@@ -96,6 +96,18 @@ public sealed class Result<TSuccess> : Result
             return Result<TResult>.Failure(ex.ToError());
         }
     }
+
+    public static async Task<Result<TResult>> Try<TResult>(Func<Task<TResult>> func)
+    {
+        try
+        {
+            return Result<TResult>.Success(await func());
+        }
+        catch (Exception ex)
+        {
+            return Result<TResult>.Failure(ex.ToError());
+        }
+    }
 }
 
 public class Result
@@ -159,6 +171,19 @@ public class Result
         try
         {
             func();
+            return Success();
+        }
+        catch (Exception ex)
+        {
+            return Failure(ex.ToError());
+        }
+    }
+
+    public static async Task<Result> Try(Func<Task> func)
+    {
+        try
+        {
+            await func();
             return Success();
         }
         catch (Exception ex)

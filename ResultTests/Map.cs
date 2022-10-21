@@ -1,7 +1,6 @@
 using Results;
-using Results.Synchronous;
 
-namespace ResultTests.Synchronous;
+namespace ResultTests;
 
 public sealed class Map
 {

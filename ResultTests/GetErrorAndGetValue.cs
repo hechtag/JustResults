@@ -1,7 +1,7 @@
+using Results;
 using Results.Errors;
-using Results.Synchronous;
 
-namespace ResultTests.Synchronous;
+namespace ResultTests;
 
 public sealed class GetErrorAndGetValue
 {

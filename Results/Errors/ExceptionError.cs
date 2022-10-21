@@ -1,5 +1,3 @@
-using Results.Synchronous;
-
 namespace Results.Errors;
 
 public sealed class ExceptionError : IError

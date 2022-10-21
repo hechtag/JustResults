@@ -1,6 +1,6 @@
-using Results.Synchronous;
+using Results;
 
-namespace ResultTests.Synchronous.Extensions;
+namespace ResultTests.Extensions;
 
 public sealed class FailIfNull
 {

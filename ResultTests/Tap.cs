@@ -1,8 +1,7 @@
 using Results;
 using Results.Errors;
-using Results.Synchronous;
 
-namespace ResultTests.Synchronous;
+namespace ResultTests;
 
 public sealed class Tap
 {
@@ -115,7 +114,7 @@ public sealed class Tap
                     error_data = e.Message;
                 }
 
-                var success = Results.Synchronous.Result.Success();
+                var success = Result.Success();
 
 
                 // act
@@ -153,7 +152,7 @@ public sealed class Tap
                     error_data = e.Message;
                 }
 
-                var success = Results.Synchronous.Result.Failure(error);
+                var success = Result.Failure(error);
 
 
                 // act

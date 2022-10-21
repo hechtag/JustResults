@@ -1,6 +1,6 @@
-using Results.Synchronous;
+using Results;
 
-namespace ResultTests.Synchronous;
+namespace ResultTests;
 
 public sealed class ToResult
 {

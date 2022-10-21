@@ -1,8 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 
-using Results.Asynchronous;
-using Results.Synchronous;
 
 
 Console.WriteLine("start");
