@@ -1,86 +1,335 @@
+using Results;
 using Results.Synchronous;
 
 namespace ResultTests.Synchronous;
 
 public class Map
 {
-    public sealed class With_Content
+    public class Sync
     {
-        [Fact]
-        public void Success()
+        public sealed class With_Content
         {
-            // arrange
-            var input = "input";
-            var success = Result<string>.Success(input);
-
-            // act
-            var res = success.Map(data => data + " map");
-
-            // assert
-            var result_message = res.Match(data => data, err => err.Message);
-            using (new AssertionScope())
+            [Fact]
+            public void Success()
             {
-                res.IsSuccess.Should().BeTrue();
-                result_message.Should().Be("input map");
+                // arrange
+                var input = "input";
+                var success = Result<string>.Success(input);
+
+                // act
+                var res = success.Map(data => data + " map");
+
+                // assert
+                var result_message = res.GetValue();
+                using (new AssertionScope())
+                {
+                    res.IsSuccess.Should().BeTrue();
+                    result_message.Should().Be("input map");
+                }
+            }
+
+            [Fact]
+            public void Failure()
+            {
+                // arrange
+                var error = "error";
+                var failure = Result<string>.Failure(error);
+
+                // act
+                var res = failure.Map(data => data + " map");
+
+                // assert
+                var result_message = res.GetError();
+                using (new AssertionScope())
+                {
+                    res.IsSuccess.Should().BeFalse();
+                    result_message.Message.Should().Be("error");
+                }
             }
         }
 
-        [Fact]
-        public void Failure()
+        public sealed class No_Content
         {
-            // arrange
-            var error = "error";
-            var failure = Result<string>.Failure(error);
-
-            // act
-            var res = failure.Map(data => data + " map");
-
-            // assert
-            var result_message = res.Match(data => data, err => err.Message);
-            using (new AssertionScope())
+            [Fact]
+            public void Success()
             {
-                res.IsSuccess.Should().BeFalse();
-                result_message.Should().Be("error");
+                // arrange
+                var success = Result.Success();
+
+                // act
+                var res = success.Map(() => "map");
+
+                // assert
+                var result_message = res.GetValue();
+                using (new AssertionScope())
+                {
+                    res.IsSuccess.Should().BeTrue();
+                    result_message.Should().Be("map");
+                }
+            }
+
+            [Fact]
+            public void Failure()
+            {
+                // arrange
+                var error = "error";
+                var failure = Result.Failure(error);
+
+                // act
+                var res = failure.Map(() => "map");
+
+                // assert
+                var result_message = res.GetError();
+                using (new AssertionScope())
+                {
+                    res.IsSuccess.Should().BeFalse();
+                    result_message.Message.Should().Be("error");
+                }
             }
         }
-    }  
-    
-    public sealed class No_Content
+    }
+
+    public class Async
     {
-        [Fact]
-        public void Success()
+        public sealed class With_Content
         {
-            // arrange
-            var success = Results.Synchronous.Result.Success();
-
-            // act
-            var res = success.Map(() => "map");
-
-            // assert
-            var result_message = res.Match(data => data, err => err.Message);
-            using (new AssertionScope())
+            [Fact]
+            public async Task Success_with_sync_start()
             {
-                res.IsSuccess.Should().BeTrue();
-                result_message.Should().Be("map");
+                // arrange
+                var input = "input";
+                var success = Result<string>.Success(input);
+                var func = (string d) => Task.FromResult(d + " map");
+
+                // act
+                var res = await success.Map(func);
+
+                // assert
+                var result_message = res.GetValue();
+                using (new AssertionScope())
+                {
+                    res.IsSuccess.Should().BeTrue();
+                    result_message.Should().Be("input map");
+                }
+            }
+
+            [Fact]
+            public async Task Failure_with_sync_start()
+            {
+                // arrange
+                var error = "error";
+                var failure = Result<string>.Failure(error);
+                var func = (string d) => Task.FromResult(d + " map");
+
+                // act
+                var res = await failure.Map(func);
+
+                // assert
+                var result_message = res.GetError();
+                using (new AssertionScope())
+                {
+                    res.IsSuccess.Should().BeFalse();
+                    result_message.Message.Should().Be("error");
+                }
+            }
+
+            [Fact]
+            public async Task Success_with_async_start()
+            {
+                // arrange
+                var input = "input";
+                var success = Result<string>.Success(input).ToTask();
+                var func = (string d) => d + " map";
+
+                // act
+                var res = await success.Map(func);
+
+                // assert
+                var result_message = res.GetValue();
+                using (new AssertionScope())
+                {
+                    res.IsSuccess.Should().BeTrue();
+                    result_message.Should().Be("input map");
+                }
+            }
+
+            [Fact]
+            public async Task Failure_with_async_start()
+            {
+                // arrange
+                var error = "error";
+                var failure = Result<string>.Failure(error).ToTask();
+                var func = (string d) => d + " map";
+
+                // act
+                var res = await failure.Map(func);
+
+                // assert
+                var result_message = res.GetError();
+                using (new AssertionScope())
+                {
+                    res.IsSuccess.Should().BeFalse();
+                    result_message.Message.Should().Be("error");
+                }
+            }
+
+            [Fact]
+            public async Task Success_with_both_async()
+            {
+                // arrange
+                var input = "input";
+                var success = Result<string>.Success(input).ToTask();
+                var func = (string d) => Task.FromResult(d + " map");
+
+                // act
+                var res = await success.Map(func);
+
+                // assert
+                var result_message = res.GetValue();
+                using (new AssertionScope())
+                {
+                    res.IsSuccess.Should().BeTrue();
+                    result_message.Should().Be("input map");
+                }
+            }
+
+            [Fact]
+            public async Task Failure_with_both_async()
+            {
+                // arrange
+                var error = "error";
+                var failure = Result<string>.Failure(error).ToTask();
+                var func = (string d) => Task.FromResult(d + " map");
+
+                // act
+                var res = await failure.Map(func);
+
+                // assert
+                var result_message = res.GetError();
+                using (new AssertionScope())
+                {
+                    res.IsSuccess.Should().BeFalse();
+                    result_message.Message.Should().Be("error");
+                }
             }
         }
-
-        [Fact]
-        public void Failure()
+        public sealed class No_Content
         {
-            // arrange
-            var error = "error";
-            var failure = Results.Synchronous.Result.Failure(error);
-
-            // act
-            var res = failure.Map(() => "map");
-
-            // assert
-            var result_message = res.Match(data => data, err => err.Message);
-            using (new AssertionScope())
+            [Fact]
+            public async Task Success_with_sync_start()
             {
-                res.IsSuccess.Should().BeFalse();
-                result_message.Should().Be("error");
+                // arrange
+                var success = Result.Success();
+                var func = () => Task.FromResult("map");
+
+                // act
+                var res = await success.Map(func);
+
+                // assert
+                var result_message = res.GetValue();
+                using (new AssertionScope())
+                {
+                    res.IsSuccess.Should().BeTrue();
+                    result_message.Should().Be("map");
+                }
+            }
+
+            [Fact]
+            public async Task Failure_with_sync_start()
+            {
+                // arrange
+                var error = "error";
+                var failure = Result.Failure(error);
+                var func = () => Task.FromResult("map");
+
+                // act
+                var res = await failure.Map(func);
+
+                // assert
+                var result_message = res.GetError();
+                using (new AssertionScope())
+                {
+                    res.IsSuccess.Should().BeFalse();
+                    result_message.Message.Should().Be("error");
+                }
+            }
+
+            [Fact]
+            public async Task Success_with_async_start()
+            {
+                // arrange
+                var success = Result.Success().ToTask();
+                var func = () => "map";
+
+                // act
+                var res = await success.Map(func);
+
+                // assert
+                var result_message = res.GetValue();
+                using (new AssertionScope())
+                {
+                    res.IsSuccess.Should().BeTrue();
+                    result_message.Should().Be("map");
+                }
+            }
+
+            [Fact]
+            public async Task Failure_with_async_start()
+            {
+                // arrange
+                var error = "error";
+                var failure = Result.Failure(error).ToTask();
+                var func = () =>  "map";
+
+                // act
+                var res = await failure.Map(func);
+
+                // assert
+                var result_message = res.GetError();
+                using (new AssertionScope())
+                {
+                    res.IsSuccess.Should().BeFalse();
+                    result_message.Message.Should().Be("error");
+                }
+            }
+
+            [Fact]
+            public async Task Success_with_both_async()
+            {
+                // arrange
+                var success = Result.Success().ToTask();
+                var func = () => Task.FromResult("map");
+
+                // act
+                var res = await success.Map(func);
+
+                // assert
+                var result_message = res.GetValue();
+                using (new AssertionScope())
+                {
+                    res.IsSuccess.Should().BeTrue();
+                    result_message.Should().Be("map");
+                }
+            }
+
+            [Fact]
+            public async Task Failure_with_both_async()
+            {
+                // arrange
+                var error = "error";
+                var failure = Result.Failure(error).ToTask();
+                var func = () => Task.FromResult("map");
+
+                // act
+                var res = await failure.Map(func);
+
+                // assert
+                var result_message = res.GetError();
+                using (new AssertionScope())
+                {
+                    res.IsSuccess.Should().BeFalse();
+                    result_message.Message.Should().Be("error");
+                }
             }
         }
     }

@@ -31,6 +31,11 @@ public sealed class Result<TSuccess> : Result
             ? Result<TResult>.Success(mapFunc(_value!))
             : Result<TResult>.Failure(Error!);
 
+    public async Task<Result<TResult>> Map<TResult>(Func<TSuccess, Task<TResult>> mapFunc) =>
+        IsSuccess
+            ? Result<TResult>.Success(await mapFunc(_value!))
+            : Result<TResult>.Failure(Error!);
+
     public Result<TResult> Bind<TResult>(Func<TSuccess, Result<TResult>> bindFunc) =>
         IsSuccess
             ? bindFunc(_value!)
@@ -111,6 +116,11 @@ public class Result
     public Result<TResult> Map<TResult>(Func<TResult> mapFunc) =>
         IsSuccess
             ? Result<TResult>.Success(mapFunc())
+            : Result<TResult>.Failure(Error!);
+
+    public async Task<Result<TResult>> Map<TResult>(Func<Task<TResult>> mapFunc) =>
+        IsSuccess
+            ? Result<TResult>.Success(await mapFunc())
             : Result<TResult>.Failure(Error!);
 
     public Result<TResult> Bind<TResult>(Func<Result<TResult>> bindFunc) =>

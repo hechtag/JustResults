@@ -1,3 +1,4 @@
+using Results.Errors;
 using Results.Synchronous;
 
 namespace ResultTests.Synchronous;
@@ -25,6 +26,7 @@ public class GetErrorAndGetValue
             error.Should().BeNull();
         }
     } 
+    
     [Fact]
     public void Failure()
     {
@@ -41,6 +43,29 @@ public class GetErrorAndGetValue
         {
             success.IsSuccess.Should().BeFalse();
             value.Should().BeNull();
+
+            error.Should().NotBeNull();
+            error!.Message.Should().Be(errorText);
+        }
+    }
+    [Fact]
+    public void Failure_Integer()
+    {
+        // arrange
+        var errorText = "error";
+        var success = Result<int>.Failure(errorText);
+
+        // act
+        int value = success.GetValue();
+        IError? error = success.GetError();
+
+        // assert
+        using (new AssertionScope())
+        {
+            success.IsSuccess.Should().BeFalse();
+            // TODO: Was passiert hier? Sollte int? sein!
+            // value.Should().BeNull();
+            value.Should().Be(0);
 
             error.Should().NotBeNull();
             error!.Message.Should().Be(errorText);
