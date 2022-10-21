@@ -14,7 +14,7 @@ public static class ResultTapExtensions
         this Task<Result<TSuccess>> input,
         Func<TSuccess, Task> successTap,
         Func<IError, Task> failureTap)
-        => input.MapTask(i => i.Tap(successTap, failureTap)).Flatten();
+        => input.MapTask(i => i.Tap(successTap, failureTap)).FlattenTask();
     
     public static Task<Result> Tap(
         this Task<Result> input,
@@ -26,5 +26,5 @@ public static class ResultTapExtensions
         this Task<Result> input,
         Func<Task> successTap,
         Func<IError, Task> failureTap)
-        => input.MapTask(i => i.Tap(successTap, failureTap)).Flatten();
+        => input.MapTask(i => i.Tap(successTap, failureTap)).FlattenTask();
 }

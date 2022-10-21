@@ -8,6 +8,6 @@ public static class Helpers
     public static Task<T> ToTask<T>(this T input)
         => Task.FromResult(input);
 
-    public static async Task<T> Flatten<T>(this Task<Task<T>> input)
+    public static async Task<T> FlattenTask<T>(this Task<Task<T>> input)
         => await await input;
 }

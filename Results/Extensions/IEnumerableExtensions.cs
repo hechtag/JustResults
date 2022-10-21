@@ -20,11 +20,12 @@ public static class IEnumerableExtensions
         return input.Aggregate(start, Map2);
     }
 
-    private static Result<IEnumerable<TSuccess>> Map2<TSuccess>(Result<IEnumerable<TSuccess>> agg,
+    private static Result<IEnumerable<TSuccess>> Map2<TSuccess>(
+        Result<IEnumerable<TSuccess>> agg,
         Result<TSuccess> item)
     {
         IEnumerable<TSuccess> AppendItem(IEnumerable<TSuccess> l, TSuccess i) => l.Append(i);
-        return Result<List<TSuccess>>.Map2(agg, item, AppendItem);
+        return Result<IEnumerable<TSuccess>>.Map2(agg, item, (l, i) => AppendItem(l, i));
     }
 
     public static Result<IEnumerable<TSuccess>> SequenceBind<TSuccess>(this IEnumerable<Result<TSuccess>> input)
@@ -39,18 +40,18 @@ public static class IEnumerableExtensions
         IEnumerable<TSuccess> AppendItem(IEnumerable<TSuccess> l, TSuccess i) => l.Append(i);
         return agg.Bind(a => item.Map(i => AppendItem(a, i)));
     }
-    
-    
-    public static Result<IEnumerable<TOutput>> TraverseApply<TInput,TOutput>(this IEnumerable<TInput> input, Func<TInput,Result<TOutput>> func)
+
+    public static Result<IEnumerable<TOutput>> TraverseApply<TInput, TOutput>(this IEnumerable<TInput> input,
+        Func<TInput, Result<TOutput>> func)
     {
         var start = Result<IEnumerable<TOutput>>.Success(new List<TOutput>());
-        return input.Aggregate(start, (agg, item) => Map2(agg,func(item)));
+        return input.Aggregate(start, (agg, item) => Map2(agg, func(item)));
     }
 
-    public static Result<IEnumerable<TOutput>> TraverseBind<TInput,TOutput>(this IEnumerable<TInput> input, Func<TInput,Result<TOutput>> func)
+    public static Result<IEnumerable<TOutput>> TraverseBind<TInput, TOutput>(this IEnumerable<TInput> input,
+        Func<TInput, Result<TOutput>> func)
     {
         var start = Result<IEnumerable<TOutput>>.Success(new List<TOutput>());
-        return input.Aggregate(start, (agg, item) => Bind(agg,func(item)));
+        return input.Aggregate(start, (agg, item) => Bind(agg, func(item)));
     }
-
 }

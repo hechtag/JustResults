@@ -123,5 +123,23 @@ public sealed class Create
                 result_message.Should().Be(expected_success_message);
             }
         }
+
+        [Fact]
+        public async Task Create_Success_async()
+        {
+            // arrange
+            var input = "input".ToTask();
+
+            // act
+            var failure = await Result<string>.Success(input);
+            var result_message = failure.Match(data => data, err => err.Message);
+
+            // assert
+            using (new AssertionScope())
+            {
+                failure.IsSuccess.Should().BeTrue();
+                result_message.Should().Be("input");
+            }
+        }
     }
 }
