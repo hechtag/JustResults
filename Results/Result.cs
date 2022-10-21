@@ -139,7 +139,7 @@ public sealed class Result<TSuccess> : Result
 
 public class Result
 {
-    protected Result(IError error) => Error = error;
+    protected Result(IError? error) => Error = error;
 
     protected readonly IError? Error;
 
