@@ -326,7 +326,7 @@ public sealed class Map2
 
                     // act
                     var res = await Result<string>
-                        .Map2(
+                        .Map2Async(
                             success1,
                             success2,
                             (d1, d2) => (d1 + d2 + " map").ToTask());
@@ -351,7 +351,7 @@ public sealed class Map2
 
                     // act
                     var res = await Result<string>
-                        .Map2(
+                        .Map2Async(
                             failure,
                             success,
                             (d1, d2) => (d1 + d2 + " map").ToTask());
@@ -375,7 +375,7 @@ public sealed class Map2
 
                     // act
                     var res = await Result<string>
-                        .Map2(
+                        .Map2Async(
                             success,
                             failure,
                             (d1, d2) => (d1 + d2 + " map").ToTask());
@@ -399,7 +399,7 @@ public sealed class Map2
 
                     // act
                     var res = await Result<string>
-                        .Map2(
+                        .Map2Async(
                             failure1,
                             failure2,
                             (d1, d2) => (d1 + d2 + " map").ToTask());

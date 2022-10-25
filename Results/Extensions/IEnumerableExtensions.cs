@@ -9,7 +9,7 @@ public static class IEnumerableExtensions
             .Where(r => r.IsSuccess)
             .Select(r => r.GetValue()!);
 
-    public static Task<IEnumerable<TSuccess>> WhereSuccess<TSuccess>(this Task<IEnumerable<Result<TSuccess>>> input)
+    public static Task<IEnumerable<TSuccess>> WhereSuccessAsync<TSuccess>(this Task<IEnumerable<Result<TSuccess>>> input)
         => input.MapTask(i => i.WhereSuccess());
 
     public static IEnumerable<IError> WhereFailure<TSuccess>(this IEnumerable<Result<TSuccess>> input)
@@ -17,7 +17,7 @@ public static class IEnumerableExtensions
             .Where(r => !r.IsSuccess)
             .Select(r => r.GetError()!);
 
-    public static Task<IEnumerable<IError>> WhereFailure<TSuccess>(this Task<IEnumerable<Result<TSuccess>>> input)
+    public static Task<IEnumerable<IError>> WhereFailureAsync<TSuccess>(this Task<IEnumerable<Result<TSuccess>>> input)
         => input.MapTask(i => i.WhereFailure());
 
     public static Result<IEnumerable<TSuccess>> SequenceApply<TSuccess>(this IEnumerable<Result<TSuccess>> input)
@@ -26,7 +26,7 @@ public static class IEnumerableExtensions
         return input.Aggregate(start, Map2);
     }
 
-    public static Task<Result<IEnumerable<TSuccess>>> SequenceApply<TSuccess>(
+    public static Task<Result<IEnumerable<TSuccess>>> SequenceApplyAsync<TSuccess>(
         this Task<IEnumerable<Result<TSuccess>>> input)
         => input.MapTask(i => i.SequenceApply());
 
@@ -44,7 +44,7 @@ public static class IEnumerableExtensions
         return input.Aggregate(start, Bind);
     }
 
-    public static Task<Result<IEnumerable<TSuccess>>> SequenceBind<TSuccess>(
+    public static Task<Result<IEnumerable<TSuccess>>> SequenceBindAsync<TSuccess>(
         this Task<IEnumerable<Result<TSuccess>>> input)
         => input.MapTask(i => i.SequenceBind());
 
@@ -63,7 +63,7 @@ public static class IEnumerableExtensions
         return input.Aggregate(start, (agg, item) => Map2(agg, func(item)));
     }
 
-    public static Task<Result<IEnumerable<TOutput>>> TraverseApply<TInput, TOutput>(
+    public static Task<Result<IEnumerable<TOutput>>> TraverseApplyAsync<TInput, TOutput>(
         this Task<IEnumerable<TInput>> input,
         Func<TInput, Result<TOutput>> func)
         => input.MapTask(i => i.TraverseApply(func));
@@ -75,7 +75,7 @@ public static class IEnumerableExtensions
         return input.Aggregate(start, (agg, item) => Bind(agg, func(item)));
     }
 
-    public static Task<Result<IEnumerable<TOutput>>> TraverseBind<TInput, TOutput>(
+    public static Task<Result<IEnumerable<TOutput>>> TraverseBindAsync<TInput, TOutput>(
         this Task<IEnumerable<TInput>> input,
         Func<TInput, Result<TOutput>> func)
         => input.MapTask(i => i.TraverseBind(func));

@@ -106,7 +106,7 @@ public sealed class Result<TSuccess> : Result
             _ => Failure(res2.Error!)
         };
 
-    public static async Task<Result<TSuccess>> Map2<TSuccess1, TSuccess2>(
+    public static async Task<Result<TSuccess>> Map2Async<TSuccess1, TSuccess2>(
         Task<Result<TSuccess1>> res1,
         Task<Result<TSuccess2>> res2,
         Func<TSuccess1, TSuccess2, Task<TSuccess>> mapFunc)

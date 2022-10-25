@@ -64,7 +64,7 @@ public sealed class IEnumerable
                 }.AsEnumerable().ToTask();
 
                 // act
-                var successList = await list.WhereSuccess();
+                var successList = await list.WhereSuccessAsync();
 
                 // assert
                 using (new AssertionScope())
@@ -82,7 +82,7 @@ public sealed class IEnumerable
                 var list = new List<Result<string>>().AsEnumerable().ToTask();
 
                 // act
-                var successList = await list.WhereSuccess();
+                var successList = await list.WhereSuccessAsync();
 
                 // assert
                 using (new AssertionScope())
@@ -153,7 +153,7 @@ public sealed class IEnumerable
                 }.AsEnumerable().ToTask();
 
                 // act
-                var failureList = await list.WhereFailure();
+                var failureList = await list.WhereFailureAsync();
 
                 // assert
                 using (new AssertionScope())
@@ -171,7 +171,7 @@ public sealed class IEnumerable
                 var list = new List<Result<string>>().AsEnumerable().ToTask();
 
                 // act
-                var failureList = await list.WhereFailure();
+                var failureList = await list.WhereFailureAsync();
 
                 // assert
                 using (new AssertionScope())
@@ -300,7 +300,7 @@ public sealed class IEnumerable
                 }.AsEnumerable().ToTask();
 
                 // act
-                var successResult = await list.SequenceApply();
+                var successResult = await list.SequenceApplyAsync();
 
                 // assert
                 var successList = successResult.GetValue();
@@ -325,7 +325,7 @@ public sealed class IEnumerable
                 }.AsEnumerable().ToTask();
 
                 // act
-                var failureResult = await list.SequenceApply();
+                var failureResult = await list.SequenceApplyAsync();
 
                 // assert
                 var error = failureResult.GetError();
@@ -349,7 +349,7 @@ public sealed class IEnumerable
                 }.AsEnumerable().ToTask();
 
                 // act
-                var failureResult = await list.SequenceApply();
+                var failureResult = await list.SequenceApplyAsync();
 
                 // assert
                 var error = failureResult.GetError();
@@ -375,7 +375,7 @@ public sealed class IEnumerable
                 }.AsEnumerable().ToTask();
 
                 // act
-                var failureResult = await list.SequenceApply();
+                var failureResult = await list.SequenceApplyAsync();
 
                 // assert
                 var error = failureResult.GetError();
@@ -508,7 +508,7 @@ public sealed class IEnumerable
                 }.AsEnumerable().ToTask();
 
                 // act
-                var successResult = await list.SequenceBind();
+                var successResult = await list.SequenceBindAsync();
 
                 // assert
                 var successList = successResult.GetValue();
@@ -533,7 +533,7 @@ public sealed class IEnumerable
                 }.AsEnumerable().ToTask();
 
                 // act
-                var failureResult = await list.SequenceBind();
+                var failureResult = await list.SequenceBindAsync();
 
                 // assert
                 var error = failureResult.GetError();
@@ -558,7 +558,7 @@ public sealed class IEnumerable
                 }.AsEnumerable().ToTask();
 
                 // act
-                var failureResult = await list.SequenceBind();
+                var failureResult = await list.SequenceBindAsync();
 
                 // assert
                 var error = failureResult.GetError();
@@ -583,7 +583,7 @@ public sealed class IEnumerable
                 }.AsEnumerable().ToTask();
 
                 // act
-                var failureResult = await list.SequenceBind();
+                var failureResult = await list.SequenceBindAsync();
 
                 // assert
                 var error = failureResult.GetError();
@@ -741,7 +741,7 @@ public sealed class IEnumerable
                         : Result<string>.Failure("error");
 
                 // act
-                var successResult = await list.TraverseApply(TestFunc);
+                var successResult = await list.TraverseApplyAsync(TestFunc);
 
                 // assert
                 var successList = successResult.GetValue();
@@ -771,7 +771,7 @@ public sealed class IEnumerable
                         : Result<string>.Failure("error");
 
                 // act
-                var failureResult = await list.TraverseApply(TestFunc);
+                var failureResult = await list.TraverseApplyAsync(TestFunc);
 
                 // assert
                 var error = failureResult.GetError();
@@ -800,7 +800,7 @@ public sealed class IEnumerable
                         : Result<string>.Failure(input);
 
                 // act
-                var failureResult = await list.TraverseApply(TestFunc);
+                var failureResult = await list.TraverseApplyAsync(TestFunc);
 
                 // assert
                 var error = failureResult.GetError();
@@ -831,7 +831,7 @@ public sealed class IEnumerable
                         : Result<string>.Failure(input);
 
                 // act
-                var failureResult = await list.TraverseApply(TestFunc);
+                var failureResult = await list.TraverseApplyAsync(TestFunc);
 
                 // assert
                 var error = failureResult.GetError();
@@ -988,7 +988,7 @@ public sealed class IEnumerable
                         : Result<string>.Failure("error");
 
                 // act
-                var successResult = await list.TraverseBind(TestFunc);
+                var successResult = await list.TraverseBindAsync(TestFunc);
 
                 // assert
                 var successList = successResult.GetValue();
@@ -1018,7 +1018,7 @@ public sealed class IEnumerable
                         : Result<string>.Failure("error");
 
                 // act
-                var failureResult = await list.TraverseBind(TestFunc);
+                var failureResult = await list.TraverseBindAsync(TestFunc);
 
                 // assert
                 var error = failureResult.GetError();
@@ -1047,7 +1047,7 @@ public sealed class IEnumerable
                         : Result<string>.Failure(input);
 
                 // act
-                var failureResult = await list.TraverseBind(TestFunc);
+                var failureResult = await list.TraverseBindAsync(TestFunc);
 
                 // assert
                 var error = failureResult.GetError();
@@ -1077,7 +1077,7 @@ public sealed class IEnumerable
                         : Result<string>.Failure(input);
 
                 // act
-                var failureResult = await list.TraverseBind(TestFunc);
+                var failureResult = await list.TraverseBindAsync(TestFunc);
 
                 // assert
                 var error = failureResult.GetError();
