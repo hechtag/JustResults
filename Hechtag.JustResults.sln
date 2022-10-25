@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tool", "\wsl$\Ubuntu\home\hechtag\projects\Result\Tool\Tool.csproj", "{8BFC17FE-4C03-49B0-8BA2-9F4B80E73055}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hechtag.JustResults", "Hechtag.JustResults\Hechtag.JustResults.csproj", "{0D6E4B54-DD1B-4CB9-8855-B684BDFC16DE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hechtag.JustResults", "\wsl$\Ubuntu\home\hechtag\projects\Result\Hechtag.JustResults\Hechtag.JustResults.csproj", "{1EFC53F5-4429-4EE3-B0D6-2846581975DA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hechtag.JustResults.Tests", "Hechtag.JustResults.Tests\Hechtag.JustResults.Tests.csproj", "{0497AF01-1CF2-4B08-AFD0-1A94BF6D33FD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hechtag.JustResults.Tests", "\wsl$\Ubuntu\home\hechtag\projects\Result\Hechtag.JustResults.Tests\Hechtag.JustResults.Tests.csproj", "{83681DC9-C1FB-4AD2-AC9B-3C19DA4DD1FC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tool", "Tool\Tool.csproj", "{AB30C89C-35A2-4948-ABD1-7A50A698D902}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,18 +15,18 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{8BFC17FE-4C03-49B0-8BA2-9F4B80E73055}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8BFC17FE-4C03-49B0-8BA2-9F4B80E73055}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8BFC17FE-4C03-49B0-8BA2-9F4B80E73055}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8BFC17FE-4C03-49B0-8BA2-9F4B80E73055}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1EFC53F5-4429-4EE3-B0D6-2846581975DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1EFC53F5-4429-4EE3-B0D6-2846581975DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1EFC53F5-4429-4EE3-B0D6-2846581975DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1EFC53F5-4429-4EE3-B0D6-2846581975DA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{83681DC9-C1FB-4AD2-AC9B-3C19DA4DD1FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{83681DC9-C1FB-4AD2-AC9B-3C19DA4DD1FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{83681DC9-C1FB-4AD2-AC9B-3C19DA4DD1FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{83681DC9-C1FB-4AD2-AC9B-3C19DA4DD1FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D6E4B54-DD1B-4CB9-8855-B684BDFC16DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D6E4B54-DD1B-4CB9-8855-B684BDFC16DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D6E4B54-DD1B-4CB9-8855-B684BDFC16DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D6E4B54-DD1B-4CB9-8855-B684BDFC16DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0497AF01-1CF2-4B08-AFD0-1A94BF6D33FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0497AF01-1CF2-4B08-AFD0-1A94BF6D33FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0497AF01-1CF2-4B08-AFD0-1A94BF6D33FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0497AF01-1CF2-4B08-AFD0-1A94BF6D33FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB30C89C-35A2-4948-ABD1-7A50A698D902}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB30C89C-35A2-4948-ABD1-7A50A698D902}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB30C89C-35A2-4948-ABD1-7A50A698D902}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB30C89C-35A2-4948-ABD1-7A50A698D902}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -9,7 +9,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Hechtag.JustResults\Hechtag.JustResults.csproj" />
-      <ProjectReference Include="..\Results\Results.csproj" />
     </ItemGroup>
 
 </Project>
