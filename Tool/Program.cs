@@ -1,4 +1,4 @@
-﻿using Results;
+﻿using Hechtag.JustResults;
 
 var qwe = Task.Run(async () =>
 {
