@@ -52,7 +52,7 @@ public sealed class FailIfNull
             var input = Task.FromResult(null as string);
 
             // act
-            var failure = await input.FailIfNull();
+            var failure = await input.FailIfNullAsync();
             var result_message = failure.Match(d => d, err => err.Message);
 
             // assert
@@ -70,7 +70,7 @@ public sealed class FailIfNull
             Task<string?> input = Task.FromResult("Some Value");
 
             // act
-            var failure = await input.FailIfNull();
+            var failure = await input.FailIfNullAsync();
             var result_message = failure.Match(d => d, err => err.Message);
 
             // assert

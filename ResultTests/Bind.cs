@@ -264,7 +264,7 @@ public sealed class Bind
                     var success = Result<string>.Success(input).ToTask();
 
                     // act
-                    var res = await success.Bind(data => Result<string>.Success(data + " bind").ToTask());
+                    var res = await success.BindAsync(data => Result<string>.Success(data + " bind").ToTask());
 
                     // assert
                     var result_message = res.GetValue();
@@ -283,7 +283,7 @@ public sealed class Bind
                     var success = Result<string>.Success(input).ToTask();
 
                     // act
-                    var res = await success.Bind(data => Result<string>.Failure(data + " error").ToTask());
+                    var res = await success.BindAsync(data => Result<string>.Failure(data + " error").ToTask());
 
                     // assert
                     var error = res.GetError();
@@ -303,7 +303,7 @@ public sealed class Bind
                     var success = Result<string>.Failure(errorInput).ToTask();
 
                     // act
-                    var res = await success.Bind(data => Result<string>.Success(data + " bind").ToTask());
+                    var res = await success.BindAsync(data => Result<string>.Success(data + " bind").ToTask());
 
                     // assert
                     var error = res.GetError();
@@ -323,7 +323,7 @@ public sealed class Bind
                     var errorResult = Result<string>.Failure(errorInput).ToTask();
                 
                     // act
-                    var res = await errorResult.Bind(data => Result<string>.Failure(data + " bind").ToTask());
+                    var res = await errorResult.BindAsync(data => Result<string>.Failure(data + " bind").ToTask());
                 
                     // assert
                     var error = res.GetError();

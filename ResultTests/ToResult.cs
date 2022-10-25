@@ -52,7 +52,7 @@ public sealed class ToResult
             var success = Result<string>.Success(input).ToTask();
 
             // act
-            var result = await success.ToResult();
+            var result = await success.ToResultAsync();
 
             // assert
             using (new AssertionScope())
@@ -69,7 +69,7 @@ public sealed class ToResult
             var failure = Result<string>.Failure(error).ToTask();
 
             // act
-            var result = await failure.ToResult();
+            var result = await failure.ToResultAsync();
 
             // assert
             var res = result.GetError();

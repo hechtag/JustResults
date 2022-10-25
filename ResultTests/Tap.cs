@@ -203,7 +203,7 @@ public sealed class Tap
 
 
                 // act
-                var success = await successTask.Tap(SuccessAction, ErrorAction);
+                var success = await successTask.TapAsync(SuccessAction, ErrorAction);
 
                 // assert
                 using (new AssertionScope())
@@ -244,7 +244,7 @@ public sealed class Tap
 
 
                 // act
-                var success = await successTask.Tap(SuccessAction, ErrorAction);
+                var success = await successTask.TapAsync(SuccessAction, ErrorAction);
 
                 // assert
                 using (new AssertionScope())
@@ -288,7 +288,7 @@ public sealed class Tap
 
 
                 // act
-                var success = await successTask.Tap(SuccessAction, ErrorAction);
+                var success = await successTask.TapAsync(SuccessAction, ErrorAction);
 
                 // assert
                 using (new AssertionScope())
@@ -331,7 +331,7 @@ public sealed class Tap
 
 
                 // act
-                var success = await successTask.Tap(SuccessAction, ErrorAction);
+                var success = await successTask.TapAsync(SuccessAction, ErrorAction);
 
                 // assert
                 using (new AssertionScope())
@@ -372,7 +372,7 @@ public sealed class Tap
 
 
                 // act
-                var success = await successTask.Tap(SuccessAction, ErrorAction);
+                var success = await successTask.TapAsync(SuccessAction, ErrorAction);
 
                 // assert
                 using (new AssertionScope())
@@ -410,7 +410,7 @@ public sealed class Tap
 
 
                 // act
-                var success = await successTask.Tap(SuccessAction, ErrorAction);
+                var success = await successTask.TapAsync(SuccessAction, ErrorAction);
 
                 // assert
                 using (new AssertionScope())
@@ -449,7 +449,7 @@ public sealed class Tap
 
 
                 // act
-                var success = await successTask.Tap(SuccessAction, ErrorAction);
+                var success = await successTask.TapAsync(SuccessAction, ErrorAction);
 
                 // assert
                 using (new AssertionScope())
@@ -489,7 +489,7 @@ public sealed class Tap
 
 
                 // act
-                var success = await successTask.Tap(SuccessAction, ErrorAction);
+                var success = await successTask.TapAsync(SuccessAction, ErrorAction);
 
                 // assert
                 using (new AssertionScope())

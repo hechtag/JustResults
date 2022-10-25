@@ -141,7 +141,7 @@ public sealed class Map
                 var func = (string d) => d + " map";
 
                 // act
-                var res = await success.Map(func);
+                var res = await success.MapAsync(func);
 
                 // assert
                 var result_message = res.GetValue();
@@ -161,7 +161,7 @@ public sealed class Map
                 var func = (string d) => d + " map";
 
                 // act
-                var res = await failure.Map(func);
+                var res = await failure.MapAsync(func);
 
                 // assert
                 var result_message = res.GetError();
@@ -181,7 +181,7 @@ public sealed class Map
                 var func = (string d) => Task.FromResult(d + " map");
 
                 // act
-                var res = await success.Map(func);
+                var res = await success.MapAsync(func);
 
                 // assert
                 var result_message = res.GetValue();
@@ -201,7 +201,7 @@ public sealed class Map
                 var func = (string d) => Task.FromResult(d + " map");
 
                 // act
-                var res = await failure.Map(func);
+                var res = await failure.MapAsync(func);
 
                 // assert
                 var result_message = res.GetError();
@@ -300,7 +300,7 @@ public sealed class Map
                 var func = () => Task.FromResult("map");
 
                 // act
-                var res = await success.Map(func);
+                var res = await success.MapAsync(func);
 
                 // assert
                 var result_message = res.GetValue();
@@ -320,7 +320,7 @@ public sealed class Map
                 var func = () => Task.FromResult("map");
 
                 // act
-                var res = await failure.Map(func);
+                var res = await failure.MapAsync(func);
 
                 // assert
                 var result_message = res.GetError();

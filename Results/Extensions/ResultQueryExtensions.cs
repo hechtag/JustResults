@@ -34,7 +34,7 @@ public static class ResultQueryExtensions
         Func<TInput1, TInput2, TOutput> func)
     {
         Task<Result<TOutput>> OuterBindFunc(TInput1 i1) => bindFunc(i1).Select(i2 => func(i1, i2));
-        return input.Bind(OuterBindFunc);
+        return input.BindAsync(OuterBindFunc);
     }
 
     public static Task<Result<TOutput>> SelectMany<TInput1, TInput2, TOutput>(
