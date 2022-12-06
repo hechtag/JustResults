@@ -135,6 +135,13 @@ public sealed class Result<TSuccess> : Result
             return Result<TResult>.Failure(ex.ToError());
         }
     }
+
+    public override string ToString()
+    {
+        return IsSuccess
+            ? $"Result: Success ({_value.ToString()})"
+            : $"Result: Failure ({Error.ToString()})";
+    }
 }
 
 public class Result
@@ -263,5 +270,12 @@ public class Result
         return IsSuccess
             ? null
             : Error;
+    }
+
+    public override string ToString()
+    {
+        return IsSuccess
+            ? "Result: Success"
+            : $"Result: Failure ({Error.ToString()})";
     }
 }

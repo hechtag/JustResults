@@ -12,5 +12,6 @@ var asd = await (
     from d in qwe
     select $"{a} + {b} + {c} # {d}");
 
-asd.Tap(Console.WriteLine, e => Console.WriteLine(e.Display));
+//asd.Tap(Console.WriteLine, e => Console.WriteLine(e.Display));
+Console.WriteLine(asd);
 Console.ReadKey();
