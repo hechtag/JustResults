@@ -68,6 +68,22 @@ public sealed class Result<TSuccess> : Result
 
         return this;
     }
+    
+    public Result<TSuccess> TapError(Action<IError> failureTap)
+    {
+        if (!IsSuccess)
+            failureTap(Error!);
+
+        return this;
+    }
+
+    public async Task<Result<TSuccess>> TapError(Func<IError, Task> failureTap)
+    {
+        if (!IsSuccess)
+            await failureTap(Error!);
+
+        return this;
+    }
 
     public Result<TSuccess> Tap(Action<TSuccess> successTap)
     {
@@ -274,6 +290,22 @@ public class Result
         if (IsSuccess)
             await successTap();
         else
+            await failureTap(Error!);
+
+        return this;
+    }
+    
+    public Result TapError(Action<IError> failureTap)
+    {
+        if (!IsSuccess)
+            failureTap(Error!);
+
+        return this;
+    }
+
+    public async Task<Result> TapError(Func<IError, Task> failureTap)
+    {
+        if (!IsSuccess)
             await failureTap(Error!);
 
         return this;
