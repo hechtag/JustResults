@@ -68,7 +68,7 @@ public sealed class Result<TSuccess> : Result
 
         return this;
     }
-    
+
     public Result<TSuccess> TapError(Action<IError> failureTap)
     {
         if (!IsSuccess)
@@ -166,6 +166,28 @@ public sealed class Result<TSuccess> : Result
         {
             return Result<TResult>.Failure(ex.ToError());
         }
+    }
+
+    public Result<TSuccess> Ensure(Func<TSuccess, bool> ensureFunc, IError error)
+    {
+        if (IsSuccess)
+        {
+            var res = ensureFunc(_value!);
+            if (res)
+            {
+                return this;
+            }
+            return Result<TSuccess>.Failure(error);
+        }
+        else
+        {
+            return this;
+        }
+    }
+
+    public Result<TSuccess> Ensure(Func<TSuccess, bool> ensureFunc, string error)
+    {
+        return Ensure(ensureFunc, TextError.Create(error));
     }
 
     public override string ToString()
@@ -294,7 +316,7 @@ public class Result
 
         return this;
     }
-    
+
     public Result TapError(Action<IError> failureTap)
     {
         if (!IsSuccess)
@@ -325,6 +347,28 @@ public class Result
             await successTap();
 
         return this;
+    }
+
+    public Result Ensure(Func<bool> ensureFunc, IError error)
+    {
+        if (IsSuccess)
+        {
+            var res = ensureFunc();
+            if (res)
+            {
+                return this;
+            }
+            return Failure(error);
+        }
+        else
+        {
+            return this;
+        }
+    }
+
+    public Result Ensure(Func<bool> ensureFunc, string error)
+    {
+        return Ensure(ensureFunc, TextError.Create(error));
     }
 
     public IError? GetError()
