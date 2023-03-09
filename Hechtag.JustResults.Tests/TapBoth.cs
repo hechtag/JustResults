@@ -2,7 +2,7 @@ using Hechtag.JustResults.Errors;
 
 namespace Hechtag.JustResults.Tests;
 
-public sealed class Tap
+public sealed class TapBoth
 {
     public sealed class Sync
     {
@@ -35,7 +35,7 @@ public sealed class Tap
 
 
                 // act
-                success.Tap(SuccessAction, ErrorAction);
+                success.TapBoth(SuccessAction, ErrorAction);
 
                 // assert
                 using (new AssertionScope())
@@ -76,7 +76,7 @@ public sealed class Tap
 
 
                 // act
-                success.Tap(SuccessAction, ErrorAction);
+                success.TapBoth(SuccessAction, ErrorAction);
 
                 // assert
                 using (new AssertionScope())
@@ -117,7 +117,7 @@ public sealed class Tap
 
 
                 // act
-                success.Tap(SuccessAction, ErrorAction);
+                success.TapBoth(SuccessAction, ErrorAction);
 
                 // assert
                 using (new AssertionScope())
@@ -155,7 +155,7 @@ public sealed class Tap
 
 
                 // act
-                success.Tap(SuccessAction, ErrorAction);
+                success.TapBoth(SuccessAction, ErrorAction);
 
                 // assert
                 using (new AssertionScope())

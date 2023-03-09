@@ -49,7 +49,7 @@ public sealed class Result<TSuccess> : Result
             ? await bindFunc(_value!)
             : Result<TResult>.Failure(Error!);
 
-    public Result<TSuccess> Tap(Action<TSuccess> successTap, Action<IError> failureTap)
+    public Result<TSuccess> TapBoth(Action<TSuccess> successTap, Action<IError> failureTap)
     {
         if (IsSuccess)
             successTap(_value!);
@@ -59,7 +59,7 @@ public sealed class Result<TSuccess> : Result
         return this;
     }
 
-    public async Task<Result<TSuccess>> Tap(Func<TSuccess, Task> successTap, Func<IError, Task> failureTap)
+    public async Task<Result<TSuccess>> TapBoth(Func<TSuccess, Task> successTap, Func<IError, Task> failureTap)
     {
         if (IsSuccess)
             await successTap(_value!);
@@ -243,9 +243,7 @@ public class Result
         }
     }
 
-    // public static implicit operator Task<Result>(Result s) => Task.FromResult(s);
-
-    public Result Tap(Action successTap, Action<IError> failureTap)
+    public Result TapBoth(Action successTap, Action<IError> failureTap)
     {
         if (IsSuccess)
             successTap();
@@ -255,7 +253,7 @@ public class Result
         return this;
     }
 
-    public async Task<Result> Tap(Func<Task> successTap, Func<IError, Task> failureTap)
+    public async Task<Result> TapBoth(Func<Task> successTap, Func<IError, Task> failureTap)
     {
         if (IsSuccess)
             await successTap();
