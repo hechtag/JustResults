@@ -1,4 +1,5 @@
 using Hechtag.JustResults.Errors;
+using Hechtag.JustResults.Extensions;
 
 namespace Hechtag.JustResults.Tests;
 
@@ -103,6 +104,40 @@ public sealed class Create
                     result_message.Should().Be(error.Message);
                 }
             }
+
+            [Fact]
+            public void ToFailure()
+            {
+                // arrange
+                var input = "input";
+
+                // act
+                var result = input.ToFailure<string>();
+
+                // assert
+                using (new AssertionScope())
+                {
+                    result.IsSuccess.Should().BeFalse();
+                    result.GetError().Message.Should().Be(input);
+                }
+            }
+
+            [Fact]
+            public async Task ToFailure_async()
+            {
+                // arrange
+                var input = Task.FromResult("input");
+
+                // act
+                var result = await input.ToFailure<string>();
+
+                // assert
+                using (new AssertionScope())
+                {
+                    result.IsSuccess.Should().BeFalse();
+                    result.GetError().Message.Should().Be(await input);
+                }
+            }
         }
 
         [Fact]
@@ -138,6 +173,41 @@ public sealed class Create
             {
                 failure.IsSuccess.Should().BeTrue();
                 result_message.Should().Be("input");
+            }
+        }
+
+        [Fact]
+        public void ToSuccess()
+        {
+            // arrange
+            var input = "input";
+
+            // act
+            var result = input.ToSuccess();
+
+            // assert
+            using (new AssertionScope())
+            {
+                result.IsSuccess.Should().BeTrue();
+                result.GetValue().Should().Be(input);
+            }
+        }
+
+        [Fact]
+        public async Task ToSuccess_async()
+        {
+            // arrange
+            var input = Task.FromResult("input");
+
+            // act
+            var result = await input.ToSuccess();
+
+
+            // assert
+            using (new AssertionScope())
+            {
+                result.IsSuccess.Should().BeTrue();
+                result.GetValue().Should().Be(await input);
             }
         }
     }
