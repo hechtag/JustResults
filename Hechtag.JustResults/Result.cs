@@ -69,6 +69,22 @@ public sealed class Result<TSuccess> : Result
         return this;
     }
 
+    public Result<TSuccess> Tap(Action<TSuccess> successTap)
+    {
+        if (IsSuccess)
+            successTap(_value!);
+
+        return this;
+    }
+
+    public async Task<Result<TSuccess>> Tap(Func<TSuccess, Task> successTap)
+    {
+        if (IsSuccess)
+            await successTap(_value!);
+
+        return this;
+    }
+
     public TSuccess? GetValue()
         => IsSuccess
             ? _value
@@ -259,6 +275,22 @@ public class Result
             await successTap();
         else
             await failureTap(Error!);
+
+        return this;
+    }
+
+    public Result Tap(Action successTap)
+    {
+        if (IsSuccess)
+            successTap();
+
+        return this;
+    }
+
+    public async Task<Result> Tap(Func<Task> successTap)
+    {
+        if (IsSuccess)
+            await successTap();
 
         return this;
     }
