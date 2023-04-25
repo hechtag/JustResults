@@ -1,19 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    
-    <PackageId>Hechtag.JustResults</PackageId>
-    <Authors>Jannis Hecht</Authors>
-    <Description>Simple Result Library</Description>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageTags>Result,Monad,Applicative,List,Utils</PackageTags>
-    <RepositoryUrl>https://github.com/hechtag/JustResults</RepositoryUrl>
-    <Version>1.0.0</Version>
-
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-  </PropertyGroup>
-
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<PackageId>Hechtag.JustResults</PackageId>
+		<Authors>Jannis Hecht</Authors>
+		<Description>Simple Result Library</Description>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageTags>Result,Monad,Applicative,List,Utils</PackageTags>
+		<RepositoryUrl>https://github.com/hechtag/JustResults</RepositoryUrl>
+		<Version>1.2.0</Version>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	</PropertyGroup>
 </Project>

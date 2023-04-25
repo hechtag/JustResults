@@ -2,7 +2,7 @@ using Hechtag.JustResults.Errors;
 
 namespace Hechtag.JustResults;
 
-public sealed class Result<TSuccess> : Result
+public sealed class Result<TSuccess> : Result where TSuccess : notnull
 {
     private Result(TSuccess value) : base(null) => _value = value;
 
@@ -28,6 +28,12 @@ public sealed class Result<TSuccess> : Result
         IsSuccess
             ? successFunc(_value!)
             : errorFunc(Error!);
+
+    public void OnSuccess(Action<TSuccess> successFunc)
+    {
+        if (IsSuccess)
+            successFunc(_value!);
+    }
 
     public Result<TResult> Map<TResult>(Func<TSuccess, TResult> mapFunc) =>
         IsSuccess
@@ -249,6 +255,20 @@ public class Result
             ? successFunc()
             : errorFunc(Error!);
     }
+
+    public void OnSuccess(Action successFunc)
+    {
+        if (IsSuccess)
+            successFunc();
+    }
+
+    public void OnFailure(Action<IError> failureFunc)
+    {
+        if (!IsSuccess)
+            failureFunc(Error!);
+    }
+
+
 
     public static Result Map2(Result res1, Result res2) =>
         (res1.IsSuccess, res2.IsSuccess) switch

@@ -1,0 +1,1 @@
+ dotnet nuget push Hechtag.JustResults.<api-version>.nupkg --api-key <api-key> --source https://api.nuget.org/v3/index.json
