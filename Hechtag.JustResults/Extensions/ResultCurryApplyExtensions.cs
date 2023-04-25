@@ -14,6 +14,8 @@ public static class ResultCurryApplyExtensions
     public static Result<TOutput> Apply<TInput, TOutput>(
         this Result<Func<TInput, TOutput>> func,
         Result<TInput> input)
+        where TOutput : notnull
+        where TInput : notnull
         => Apply(func, input, (i, f) => f(i));
 
     // public static Result<Func<TInput2, TOutput>>
@@ -26,7 +28,7 @@ public static class ResultCurryApplyExtensions
 
     public static Result<Func<TInput2, TOutput>> Apply<TInput1, TInput2, TOutput>(
         this Result<Func<TInput1, TInput2, TOutput>> func,
-        Result<TInput1> input)
+        Result<TInput1> input) where TInput1 : notnull
         => Apply<TInput1, Func<TInput1, TInput2, TOutput>, Func<TInput2, TOutput>>(
             func,
             input,
@@ -34,7 +36,7 @@ public static class ResultCurryApplyExtensions
 
     public static Result<Func<TInput2, TInput3, TOutput>> Apply<TInput1, TInput2, TInput3, TOutput>(
         this Result<Func<TInput1, TInput2, TInput3, TOutput>> func,
-        Result<TInput1> input)
+        Result<TInput1> input) where TInput1 : notnull
         => Apply<TInput1, Func<TInput1, TInput2, TInput3, TOutput>, Func<TInput2, TInput3, TOutput>>(
             func,
             input,
@@ -44,6 +46,9 @@ public static class ResultCurryApplyExtensions
         this Result<TFuncInput> func,
         Result<TInput> input,
         Func<TInput, TFuncInput, TFuncOutput> metaFunc)
+        where TInput : notnull
+        where TFuncInput : notnull
+        where TFuncOutput : notnull
         => func.Match(
             s => input.Map(i => metaFunc(i, s)),
             eFunc => ApplyErrorPath<TInput, TFuncOutput>(input, eFunc));
@@ -51,6 +56,8 @@ public static class ResultCurryApplyExtensions
     private static Result<TOutput> ApplyErrorPath<TInput, TOutput>(
         Result<TInput> input,
         IError eFunc)
+        where TInput : notnull
+        where TOutput : notnull
         => input.Match(
             _ => Result<TOutput>.Failure(eFunc),
             eInput => Result<TOutput>.Failure(eFunc.Concat(eInput))

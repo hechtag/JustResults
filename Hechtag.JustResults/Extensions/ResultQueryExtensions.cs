@@ -6,17 +6,17 @@ public static class ResultQueryExtensions
 {
     public static Result<TOutput> Select<TInput, TOutput>(
         this Result<TInput> input,
-        Func<TInput, TOutput> func)
+        Func<TInput, TOutput> func) where TInput : notnull where TOutput : notnull
         => input.Map(func);
 
     public static Task<Result<TOutput>> Select<TInput, TOutput>(
         this Task<Result<TInput>> input,
-        Func<TInput, TOutput> func)
+        Func<TInput, TOutput> func) where TInput : notnull where TOutput : notnull
         => input.MapTask(i => i.Select(func));
 
     public static Result<TOutput> SelectMany<TInput, TOutput>(
         this Result<TInput> input,
-        Func<TInput, Result<TOutput>> func)
+        Func<TInput, Result<TOutput>> func) where TInput : notnull where TOutput : notnull
         => input.Bind(func);
     //
     // public static Task<Result<TOutput>> SelectMany<TInput, TOutput>(
@@ -27,13 +27,19 @@ public static class ResultQueryExtensions
     public static Result<TOutput> SelectMany<TInput1, TInput2, TOutput>(
         this Result<TInput1> input,
         Func<TInput1, Result<TInput2>> bindFunc,
-        Func<TInput1, TInput2, TOutput> func)
+        Func<TInput1, TInput2, TOutput> func) 
+        where TInput1 : notnull
+        where TInput2 : notnull
+        where TOutput : notnull
         => input.SelectMany(i1 => bindFunc(i1).Select(i2 => func(i1, i2)));
 
     public static Task<Result<TOutput>> SelectMany<TInput1, TInput2, TOutput>(
         this Task<Result<TInput1>> input,
         Func<TInput1, Task<Result<TInput2>>> bindFunc,
         Func<TInput1, TInput2, TOutput> func)
+        where TInput1 : notnull
+        where TInput2 : notnull
+        where TOutput : notnull
     {
         Task<Result<TOutput>> OuterBindFunc(TInput1 i1) => bindFunc(i1).Select(i2 => func(i1, i2));
         return input.BindAsync(OuterBindFunc);
@@ -43,6 +49,9 @@ public static class ResultQueryExtensions
         this Result<TInput1> input,
         Func<TInput1, Task<Result<TInput2>>> bindFunc,
         Func<TInput1, TInput2, TOutput> func)
+        where TInput1 : notnull
+        where TInput2 : notnull
+        where TOutput : notnull
     {
         Task<Result<TOutput>> OuterBindFunc(TInput1 i1) => bindFunc(i1).Select(i2 => func(i1, i2));
         return input.Bind(OuterBindFunc);
@@ -52,6 +61,9 @@ public static class ResultQueryExtensions
         this Task<Result<TInput1>> input,
         Func<TInput1, Result<TInput2>> bindFunc,
         Func<TInput1, TInput2, TOutput> func)
+        where TInput1 : notnull
+        where TInput2 : notnull
+        where TOutput : notnull
         => input.MapTask(i => i.SelectMany(bindFunc, func));
-    
+
 }

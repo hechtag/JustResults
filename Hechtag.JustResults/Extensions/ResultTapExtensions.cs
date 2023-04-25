@@ -7,12 +7,12 @@ public static class ResultTapExtensions
 {
     public static Task<Result<TSuccess>> TapAsync<TSuccess>(
         this Task<Result<TSuccess>> input,
-        Action<TSuccess> successTap)
+        Action<TSuccess> successTap) where TSuccess : notnull
         => input.MapTask(i => i.Tap(successTap));
 
     public static Task<Result<TSuccess>> TapAsync<TSuccess>(
         this Task<Result<TSuccess>> input,
-        Func<TSuccess, Task> successTap)
+        Func<TSuccess, Task> successTap) where TSuccess : notnull
         => input.MapTask(i => i.Tap(successTap)).FlattenTask();
 
     public static Task<Result> TapAsync(

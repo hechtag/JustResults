@@ -7,12 +7,12 @@ public static class ResultTapErrorExtensions
 {
     public static Task<Result<TSuccess>> TapErrorAsync<TSuccess>(
         this Task<Result<TSuccess>> input,
-        Action<IError> failureTap)
+        Action<IError> failureTap) where TSuccess : notnull
         => input.MapTask(i => i.TapError(failureTap));
 
     public static Task<Result<TSuccess>> TapErrorAsync<TSuccess>(
         this Task<Result<TSuccess>> input,
-        Func<IError, Task> failureTap)
+        Func<IError, Task> failureTap) where TSuccess : notnull
         => input.MapTask(i => i.TapError(failureTap)).FlattenTask();
 
     public static Task<Result> TapErrorAsync(

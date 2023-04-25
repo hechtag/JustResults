@@ -8,13 +8,13 @@ public static class ResultTapBothExtensions
     public static Task<Result<TSuccess>> TapBothAsync<TSuccess>(
         this Task<Result<TSuccess>> input,
         Action<TSuccess> successTap,
-        Action<IError> failureTap)
+        Action<IError> failureTap) where TSuccess : notnull
         => input.MapTask(i => i.TapBoth(successTap, failureTap));
 
     public static Task<Result<TSuccess>> TapBothAsync<TSuccess>(
         this Task<Result<TSuccess>> input,
         Func<TSuccess, Task> successTap,
-        Func<IError, Task> failureTap)
+        Func<IError, Task> failureTap) where TSuccess : notnull
         => input.MapTask(i => i.TapBoth(successTap, failureTap)).FlattenTask();
 
     public static Task<Result> TapBothAsync(

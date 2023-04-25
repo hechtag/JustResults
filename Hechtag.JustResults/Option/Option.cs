@@ -15,7 +15,7 @@ public sealed class Option<TSuccess>
     public static async Task<Option<TSuccess>> Success(Task<TSuccess> success) =>
         new(await success);
 
-    public new static Option<TSuccess> Failure() => new();
+    public static Option<TSuccess> Failure() => new();
 
 
     public TMatch Match<TMatch>(Func<TSuccess, TMatch> successFunc, Func<TMatch> errorFunc) =>
@@ -131,7 +131,7 @@ public sealed class Option<TSuccess>
     public override string ToString()
     {
         return IsSuccess
-            ? $"Option: Success ({_value.ToString()})"
+            ? $"Option: Success ({_value!.ToString()})"
             : $"Option: Failure";
     }
 }

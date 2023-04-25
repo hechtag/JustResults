@@ -35,22 +35,22 @@ public sealed class Result<TSuccess> : Result where TSuccess : notnull
             successFunc(_value!);
     }
 
-    public Result<TResult> Map<TResult>(Func<TSuccess, TResult> mapFunc) =>
+    public Result<TResult> Map<TResult>(Func<TSuccess, TResult> mapFunc) where TResult : notnull =>
         IsSuccess
             ? Result<TResult>.Success(mapFunc(_value!))
             : Result<TResult>.Failure(Error!);
 
-    public async Task<Result<TResult>> Map<TResult>(Func<TSuccess, Task<TResult>> mapFunc) =>
+    public async Task<Result<TResult>> Map<TResult>(Func<TSuccess, Task<TResult>> mapFunc) where TResult : notnull =>
         IsSuccess
             ? Result<TResult>.Success(await mapFunc(_value!))
             : Result<TResult>.Failure(Error!);
 
-    public Result<TResult> Bind<TResult>(Func<TSuccess, Result<TResult>> bindFunc) =>
+    public Result<TResult> Bind<TResult>(Func<TSuccess, Result<TResult>> bindFunc) where TResult : notnull =>
         IsSuccess
             ? bindFunc(_value!)
             : Result<TResult>.Failure(Error!);
 
-    public async Task<Result<TResult>> Bind<TResult>(Func<TSuccess, Task<Result<TResult>>> bindFunc) =>
+    public async Task<Result<TResult>> Bind<TResult>(Func<TSuccess, Task<Result<TResult>>> bindFunc) where TResult : notnull =>
         IsSuccess
             ? await bindFunc(_value!)
             : Result<TResult>.Failure(Error!);
@@ -75,7 +75,7 @@ public sealed class Result<TSuccess> : Result where TSuccess : notnull
         return this;
     }
 
-    public Result<TSuccess> TapError(Action<IError> failureTap)
+    public new Result<TSuccess> TapError(Action<IError> failureTap)
     {
         if (!IsSuccess)
             failureTap(Error!);
@@ -83,7 +83,7 @@ public sealed class Result<TSuccess> : Result where TSuccess : notnull
         return this;
     }
 
-    public async Task<Result<TSuccess>> TapError(Func<IError, Task> failureTap)
+    public new async Task<Result<TSuccess>> TapError(Func<IError, Task> failureTap)
     {
         if (!IsSuccess)
             await failureTap(Error!);
@@ -123,7 +123,9 @@ public sealed class Result<TSuccess> : Result where TSuccess : notnull
     public static Result<TSuccess> Map2<TSuccess1, TSuccess2>(
         Result<TSuccess1> res1,
         Result<TSuccess2> res2,
-        Func<TSuccess1, TSuccess2, TSuccess> mapFunc) =>
+        Func<TSuccess1, TSuccess2, TSuccess> mapFunc)
+        where TSuccess1 : notnull
+        where TSuccess2 : notnull =>
         (res1.IsSuccess, res2.IsSuccess) switch
         {
             (true, true) => Success(mapFunc(res1._value!, res2._value!)),
@@ -135,7 +137,9 @@ public sealed class Result<TSuccess> : Result where TSuccess : notnull
     public static async Task<Result<TSuccess>> Map2<TSuccess1, TSuccess2>(
         Result<TSuccess1> res1,
         Result<TSuccess2> res2,
-        Func<TSuccess1, TSuccess2, Task<TSuccess>> mapFunc) =>
+        Func<TSuccess1, TSuccess2, Task<TSuccess>> mapFunc)
+        where TSuccess1 : notnull
+        where TSuccess2 : notnull =>
         (res1.IsSuccess, res2.IsSuccess) switch
         {
             (true, true) => Success(await mapFunc(res1._value!, res2._value!)),
@@ -148,9 +152,11 @@ public sealed class Result<TSuccess> : Result where TSuccess : notnull
         Task<Result<TSuccess1>> res1,
         Task<Result<TSuccess2>> res2,
         Func<TSuccess1, TSuccess2, Task<TSuccess>> mapFunc)
+        where TSuccess1 : notnull
+        where TSuccess2 : notnull
         => await Map2(await res1, await res2, mapFunc);
 
-    public static Result<TResult> Try<TResult>(Func<TResult> func)
+    public static Result<TResult> Try<TResult>(Func<TResult> func) where TResult : notnull
     {
         try
         {
@@ -162,7 +168,7 @@ public sealed class Result<TSuccess> : Result where TSuccess : notnull
         }
     }
 
-    public static async Task<Result<TResult>> Try<TResult>(Func<Task<TResult>> func)
+    public static async Task<Result<TResult>> Try<TResult>(Func<Task<TResult>> func) where TResult : notnull
     {
         try
         {
@@ -199,8 +205,8 @@ public sealed class Result<TSuccess> : Result where TSuccess : notnull
     public override string ToString()
     {
         return IsSuccess
-            ? $"Result: Success ({_value.ToString()})"
-            : $"Result: Failure ({Error.ToString()})";
+            ? $"Result: Success ({_value!.ToString()})"
+            : $"Result: Failure ({Error!.ToString()})";
     }
 }
 
@@ -229,22 +235,22 @@ public class Result
         return new Result(TextError.Create(error));
     }
 
-    public Result<TResult> Map<TResult>(Func<TResult> mapFunc) =>
+    public Result<TResult> Map<TResult>(Func<TResult> mapFunc) where TResult : notnull =>
         IsSuccess
             ? Result<TResult>.Success(mapFunc())
             : Result<TResult>.Failure(Error!);
 
-    public async Task<Result<TResult>> Map<TResult>(Func<Task<TResult>> mapFunc) =>
+    public async Task<Result<TResult>> Map<TResult>(Func<Task<TResult>> mapFunc) where TResult : notnull =>
         IsSuccess
             ? Result<TResult>.Success(await mapFunc())
             : Result<TResult>.Failure(Error!);
 
-    public Result<TResult> Bind<TResult>(Func<Result<TResult>> bindFunc) =>
+    public Result<TResult> Bind<TResult>(Func<Result<TResult>> bindFunc) where TResult : notnull =>
         IsSuccess
             ? bindFunc()
             : Result<TResult>.Failure(Error!);
 
-    public async Task<Result<TResult>> Bind<TResult>(Func<Task<Result<TResult>>> bindFunc) =>
+    public async Task<Result<TResult>> Bind<TResult>(Func<Task<Result<TResult>>> bindFunc) where TResult : notnull =>
         IsSuccess
             ? await bindFunc()
             : Result<TResult>.Failure(Error!);
@@ -402,6 +408,6 @@ public class Result
     {
         return IsSuccess
             ? "Result: Success"
-            : $"Result: Failure ({Error.ToString()})";
+            : $"Result: Failure ({Error!.ToString()})";
     }
 }

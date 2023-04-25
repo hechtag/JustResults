@@ -10,20 +10,20 @@ namespace Hechtag.JustResults.Option
     public static class TransformExtensions
     {
         // TODO: TESTS!!
-        public static Option<TSuccess> ToOption<TSuccess>(this Result<TSuccess> input)
+        public static Option<TSuccess> ToOption<TSuccess>(this Result<TSuccess> input) where TSuccess : notnull
         {
             return input.Match(
                 i => Option<TSuccess>.Success(i),
                 _ => Option<TSuccess>.Failure());
         }
 
-        public static Result<TSuccess> ToResult<TSuccess>(this Option<TSuccess> input, IError error)
+        public static Result<TSuccess> ToResult<TSuccess>(this Option<TSuccess> input, IError error) where TSuccess : notnull
         {
             return input.Match(
                 i => Result<TSuccess>.Success(i),
                 () => Result<TSuccess>.Failure(error));
         }
-        public static Result<TSuccess> ToResult<TSuccess>(this Option<TSuccess> input, string error)
+        public static Result<TSuccess> ToResult<TSuccess>(this Option<TSuccess> input, string error) where TSuccess : notnull
         {
             return input.ToResult(TextError.Create(error));
         }
