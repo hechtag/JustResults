@@ -156,27 +156,27 @@ public sealed class Result<TSuccess> : Result where TSuccess : notnull
         where TSuccess2 : notnull
         => await Map2(await res1, await res2, mapFunc);
 
-    public static Result<TResult> Try<TResult>(Func<TResult> func) where TResult : notnull
+    public static Result<TSuccess> Try(Func<TSuccess> func)
     {
         try
         {
-            return Result<TResult>.Success(func());
+            return Result<TSuccess>.Success(func());
         }
         catch (Exception ex)
         {
-            return Result<TResult>.Failure(ex.ToError());
+            return Result<TSuccess>.Failure(ex.ToError());
         }
     }
 
-    public static async Task<Result<TResult>> Try<TResult>(Func<Task<TResult>> func) where TResult : notnull
+    public static async Task<Result<TSuccess>> Try(Func<Task<TSuccess>> func)
     {
         try
         {
-            return Result<TResult>.Success(await func());
+            return Result<TSuccess>.Success(await func());
         }
         catch (Exception ex)
         {
-            return Result<TResult>.Failure(ex.ToError());
+            return Result<TSuccess>.Failure(ex.ToError());
         }
     }
 
