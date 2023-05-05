@@ -10,7 +10,7 @@
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageTags>Result,Monad,Applicative,List,Utils</PackageTags>
 		<RepositoryUrl>https://github.com/hechtag/JustResults</RepositoryUrl>
-		<Version>1.2.0</Version>
+		<Version>1.2.1</Version>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	</PropertyGroup>
 </Project>
