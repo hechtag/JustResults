@@ -86,6 +86,86 @@ public sealed class Bind
             }
         }
 
+        public sealed class Mixed_Content
+        {
+            [Fact]
+            public void Success_with_Success_Bind()
+            {
+                // arrange
+                var input = "input";
+                var success = Result<string>.Success(input);
+
+                // act
+                var res = success.Bind(data => Result.Success());
+
+                // assert
+                using (new AssertionScope())
+                {
+                    res.IsSuccess.Should().BeTrue();
+                }
+            }
+
+            [Fact]
+            public void Success_with_Failure_Bind()
+            {
+                // arrange
+                var input = "input";
+                var success = Result<string>.Success(input);
+
+                // act
+                var res = success.Bind(data => Result.Failure(data + " error"));
+
+                // assert
+                var error = res.GetError();
+                using (new AssertionScope())
+                {
+                    res.IsSuccess.Should().BeFalse();
+                    error.Should().NotBeNull();
+                    error!.Message.Should().Be("input error");
+                }
+            }
+
+            [Fact]
+            public void Failure_with_Success_Bind()
+            {
+                // arrange
+                var errorInput = "error";
+                var success = Result<string>.Failure(errorInput);
+
+                // act
+                var res = success.Bind(data => Result.Success());
+
+                // assert
+                var error = res.GetError();
+                using (new AssertionScope())
+                {
+                    res.IsSuccess.Should().BeFalse();
+                    error.Should().NotBeNull();
+                    error!.Message.Should().Be("error");
+                }
+            }
+
+            [Fact]
+            public void Failure_with_Failure_Bind()
+            {
+                // arrange
+                var errorInput = "error";
+                var errorResult = Result<string>.Failure(errorInput);
+
+                // act
+                var res = errorResult.Bind(data => Result.Failure(data + " bind"));
+
+                // assert
+                var error = res.GetError();
+                using (new AssertionScope())
+                {
+                    res.IsSuccess.Should().BeFalse();
+                    error.Should().NotBeNull();
+                    error!.Message.Should().Be("error");
+                }
+            }
+        }
+
         public sealed class No_Content
         {
             [Fact]

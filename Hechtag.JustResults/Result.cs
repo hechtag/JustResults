@@ -50,6 +50,11 @@ public sealed class Result<TSuccess> : Result where TSuccess : notnull
             ? bindFunc(_value!)
             : Result<TResult>.Failure(Error!);
 
+    public Result Bind(Func<TSuccess, Result> bindFunc)  =>
+        IsSuccess
+            ? bindFunc(_value!)
+            : Result.Failure(Error!);
+
     public async Task<Result<TResult>> Bind<TResult>(Func<TSuccess, Task<Result<TResult>>> bindFunc) where TResult : notnull =>
         IsSuccess
             ? await bindFunc(_value!)
